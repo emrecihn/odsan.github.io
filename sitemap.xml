@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/0.2">
+  <url>
+    <loc>https://odsan.com.tr/</loc>
+    <lastmod>2024-01-01</lastmod>
+    <priority>1.0</priority>
+  </url>
+</urlset>
+```
+
+`robots.txt` dosyası ekleyin — sitenizin kök dizinine:
+```
+User-agent: *
+Allow: /
+Sitemap: https://odsan.com.tr/sitemap.xml
