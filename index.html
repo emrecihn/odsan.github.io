@@ -3,22 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="canonical" href="https://odsan.com.tr/">
-  <!-- SEO: Title -->
-  <title>ODSAN Elektronik — Elektronik Kart Onarım, PCB Tasarım & Endüstriyel Sistem Mühendisliği | İstanbul</title>
 
-  <!-- SEO: Description -->
-  <meta name="description" content="ODSAN Elektronik; endüstriyel elektronik kart onarımı, PCB tasarım ve geliştirme, PLC/SCADA sistem mühendisliği ve savunma elektroniği alanlarında 15 yılı aşkın deneyime sahip İstanbul merkezli mühendislik şirketidir.">
+  <title>ODSAN Elektronik — Kart Onarım, PCB Tasarım, Endüstriyel & Medikal Elektronik | Ankara</title>
 
-  <!-- SEO: Keywords -->
-  <meta name="keywords" content="Odsan Elektronik, elektronik kart onarım, endüstriyel kart onarımı, PCB tasarım, PCB onarım, industrial board repair, elektronik kart tamiri, PLC onarım, servo sürücü onarım, BGA onarım, endüstriyel elektronik, savunma elektroniği, PCB design İstanbul, elektronik mühendislik İstanbul, industrial electronics repair Turkey">
+  <meta name="description" content="ODSAN Elektronik; endüstriyel elektronik kart onarımı, iş makinesi kartı tamiri, medikal cihaz kart onarımı, PCB tasarım ve endüstriyel sistem mühendisliği alanlarında Ankara merkezli uzman mühendislik firmasıdır.">
 
-  <!-- SEO: Canonical & Open Graph -->
+  <meta name="keywords" content="Odsan Elektronik, elektronik kart onarım, endüstriyel kart onarımı, iş makinesi kart tamiri, medikal kart onarımı, medikal elektronik tamir, PCB tasarım, PCB onarım, industrial board repair, elektronik kart tamiri, PLC onarım, servo sürücü onarım, BGA onarım, endüstriyel elektronik, savunma elektroniği, PCB design Ankara, elektronik mühendislik Ankara, industrial electronics repair Turkey, medical electronics repair">
+
   <meta name="robots" content="index, follow">
-  <meta property="og:title" content="ODSAN Elektronik — Elektronik Kart Onarım & PCB Tasarım">
-  <meta property="og:description" content="Endüstriyel elektronik kart onarımı, PCB tasarım ve endüstriyel sistem mühendisliğinde güvenilir çözüm ortağınız.">
+  <meta property="og:title" content="ODSAN Elektronik — Elektronik Kart Onarım, PCB Tasarım & Medikal Elektronik">
+  <meta property="og:description" content="İş makinesi, medikal cihaz, endüstriyel ve savunma elektroniği kart onarımı ile PCB tasarım hizmetleri. Ankara merkezli mühendislik firması.">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="tr_TR">
+  <link rel="canonical" href="https://odsan.com.tr/">
 
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@300;400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet">
 
@@ -61,6 +58,21 @@
   ::-webkit-scrollbar-track { background: var(--light); }
   ::-webkit-scrollbar-thumb { background: var(--blue); }
 
+  /* ─── SCROLL ANIMATIONS ─── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(22px);
+    transition: opacity 0.55s ease, transform 0.55s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+
   /* ─── NAV ─── */
   nav {
     position: fixed;
@@ -69,6 +81,7 @@
     background: rgba(255,255,255,0.97);
     border-bottom: 1px solid var(--border);
     backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
   }
 
   .nav-inner {
@@ -91,15 +104,17 @@
   }
 
   .logo-emblem {
-    width: 36px;
-    height: 36px;
+    width: 36px; height: 36px;
     border: 1.5px solid var(--navy);
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
     flex-shrink: 0;
+    transition: border-color 0.2s;
   }
+
+  .logo-emblem:hover { border-color: var(--blue); }
 
   .logo-emblem::before {
     content: '';
@@ -110,11 +125,7 @@
 
   .logo-emblem svg { position: relative; z-index: 1; }
 
-  .logo-wordmark {
-    display: flex;
-    flex-direction: column;
-    gap: 1px;
-  }
+  .logo-wordmark { display: flex; flex-direction: column; gap: 1px; }
 
   .logo-main {
     font-family: var(--serif);
@@ -133,7 +144,6 @@
     text-transform: uppercase;
   }
 
-  /* Desktop nav links */
   .nav-links {
     display: flex;
     gap: 32px;
@@ -148,9 +158,20 @@
     letter-spacing: 0.3px;
     transition: color 0.2s;
     white-space: nowrap;
+    position: relative;
+  }
+
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px; left: 0;
+    width: 0; height: 1px;
+    background: var(--blue);
+    transition: width 0.25s;
   }
 
   .nav-links a:hover { color: var(--navy); }
+  .nav-links a:hover::after { width: 100%; }
 
   .nav-contact {
     font-size: 13px;
@@ -167,14 +188,13 @@
 
   .nav-contact:hover { background: var(--blue); color: var(--white); }
 
-  /* Hamburger button — hidden on desktop */
+  /* Hamburger */
   .nav-toggle {
     display: none;
     flex-direction: column;
     justify-content: center;
     gap: 5px;
-    width: 36px;
-    height: 36px;
+    width: 36px; height: 36px;
     background: none;
     border: none;
     cursor: pointer;
@@ -190,12 +210,10 @@
     transform-origin: center;
   }
 
-  /* Mobile menu open state */
   .nav-toggle.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
   .nav-toggle.open span:nth-child(2) { opacity: 0; }
   .nav-toggle.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
 
-  /* Mobile dropdown */
   .nav-mobile {
     display: none;
     background: var(--white);
@@ -209,7 +227,6 @@
     list-style: none;
     display: flex;
     flex-direction: column;
-    gap: 0;
     margin-bottom: 16px;
   }
 
@@ -222,11 +239,7 @@
     border-bottom: 1px solid var(--border-light);
   }
 
-  .nav-mobile .nav-contact {
-    display: inline-block;
-    margin-top: 8px;
-    font-size: 13px;
-  }
+  .nav-mobile .nav-contact { display: inline-block; margin-top: 8px; }
 
   /* ─── HERO ─── */
   #hero {
@@ -234,7 +247,7 @@
     max-width: 1280px;
     margin: 0 auto;
     display: grid;
-    grid-template-columns: 1fr 340px;
+    grid-template-columns: 1fr 320px;
     gap: 64px;
     align-items: center;
     min-height: 100vh;
@@ -248,8 +261,7 @@
   }
 
   .eyebrow-line {
-    width: 28px;
-    height: 1px;
+    width: 28px; height: 1px;
     background: var(--blue);
     flex-shrink: 0;
   }
@@ -281,6 +293,42 @@
     font-weight: 300;
     max-width: 540px;
     margin-bottom: 40px;
+  }
+
+  /* Scrolling keyword ticker */
+  .hero-ticker {
+    margin-bottom: 32px;
+    overflow: hidden;
+    border-top: 1px solid var(--border-light);
+    border-bottom: 1px solid var(--border-light);
+    padding: 10px 0;
+  }
+
+  .ticker-track {
+    display: flex;
+    gap: 0;
+    animation: ticker 22s linear infinite;
+    width: max-content;
+  }
+
+  .ticker-track:hover { animation-play-state: paused; }
+
+  .ticker-item {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--gray);
+    text-transform: uppercase;
+    padding: 0 28px;
+    white-space: nowrap;
+    border-right: 1px solid var(--border);
+  }
+
+  .ticker-item span { color: var(--blue); margin-right: 6px; }
+
+  @keyframes ticker {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
   }
 
   .hero-actions {
@@ -320,7 +368,7 @@
 
   .btn-outline:hover { border-color: var(--navy); }
 
-  /* Hero sidebar stats */
+  /* Hero stats sidebar */
   .hero-sidebar {
     border-left: 1px solid var(--border);
     padding-left: 48px;
@@ -437,7 +485,10 @@
     border: 1px solid var(--border);
     padding: 5px 12px;
     background: var(--white);
+    transition: border-color 0.2s, color 0.2s;
   }
+
+  .cert:hover { border-color: var(--blue); color: var(--blue); }
 
   .capability-list {
     border: 1px solid var(--border);
@@ -478,8 +529,109 @@
   .cap-name { font-size: 13px; color: var(--text); font-weight: 400; }
   .cap-status { font-family: var(--mono); font-size: 10px; color: #2a7a4f; text-align: right; }
 
+  /* ─── SECTORS (YENİ BÖLÜM) ─── */
+  #sectors {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .sectors-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: end;
+    margin-bottom: 56px;
+    padding-bottom: 36px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .sectors-header p {
+    font-size: 15px;
+    color: var(--text-soft);
+    line-height: 1.75;
+    font-weight: 300;
+  }
+
+  .sectors-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border);
+  }
+
+  .sector-card {
+    background: var(--white);
+    padding: 36px 28px 32px;
+    position: relative;
+    transition: background 0.25s, transform 0.25s;
+    cursor: default;
+    overflow: hidden;
+  }
+
+  .sector-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: transparent;
+    transition: background 0.25s;
+  }
+
+  .sector-card:hover { background: var(--off-white); }
+  .sector-card:hover::after { background: var(--blue); }
+
+  .sector-icon {
+    width: 44px; height: 44px;
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    color: var(--navy);
+    transition: border-color 0.25s, color 0.25s;
+  }
+
+  .sector-card:hover .sector-icon { border-color: var(--blue); color: var(--blue); }
+
+  .sector-card h3 {
+    font-family: var(--serif);
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 10px;
+    line-height: 1.3;
+    color: var(--navy);
+  }
+
+  .sector-card p {
+    font-size: 13px;
+    color: var(--gray-mid);
+    line-height: 1.7;
+    font-weight: 300;
+    margin-bottom: 20px;
+  }
+
+  .sector-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .sector-tag {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 1px;
+    color: var(--gray);
+    border: 1px solid var(--border-light);
+    padding: 3px 8px;
+    background: var(--off-white);
+    text-transform: uppercase;
+    transition: border-color 0.2s;
+  }
+
+  .sector-card:hover .sector-tag { border-color: var(--border); }
+
   /* ─── CORE SERVICES ─── */
-  #core-services { background: var(--white); }
+  #core-services { background: var(--off-white); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
 
   .core-header {
     display: grid;
@@ -502,18 +654,18 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     border: 1px solid var(--border);
+    background: var(--border);
+    gap: 1px;
   }
 
   .core-card {
+    background: var(--white);
     padding: 40px 32px;
-    border-right: 1px solid var(--border);
     position: relative;
     transition: background 0.25s;
     cursor: default;
     overflow: hidden;
   }
-
-  .core-card:last-child { border-right: none; }
 
   .core-card::before {
     content: '';
@@ -537,8 +689,7 @@
   }
 
   .core-card-icon {
-    width: 48px;
-    height: 48px;
+    width: 48px; height: 48px;
     border: 1px solid var(--border);
     display: flex;
     align-items: center;
@@ -588,8 +739,7 @@
 
   /* ─── ADDITIONAL SERVICES ─── */
   #services {
-    background: var(--off-white);
-    border-top: 1px solid var(--border);
+    background: var(--white);
     border-bottom: 1px solid var(--border);
   }
 
@@ -606,9 +756,20 @@
     padding: 32px 28px;
     transition: background 0.2s;
     cursor: default;
+    position: relative;
+  }
+
+  .service-tile::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 0;
+    background: var(--blue);
+    transition: width 0.2s;
   }
 
   .service-tile:hover { background: var(--off-white); }
+  .service-tile:hover::before { width: 2px; }
 
   .service-tile-num {
     font-family: var(--mono);
@@ -635,7 +796,7 @@
   }
 
   /* ─── PROCESS ─── */
-  #process { background: var(--white); }
+  #process { background: var(--off-white); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
 
   .process-layout {
     display: grid;
@@ -657,6 +818,7 @@
     display: flex;
     flex-direction: column;
     border: 1px solid var(--border);
+    background: var(--white);
   }
 
   .process-step {
@@ -668,7 +830,7 @@
   }
 
   .process-step:last-child { border-bottom: none; }
-  .process-step:hover { background: var(--off-white); }
+  .process-step:hover { background: var(--blue-light); }
 
   .step-index {
     display: flex;
@@ -681,6 +843,12 @@
     color: var(--blue);
     padding: 20px 0;
     background: var(--off-white);
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .process-step:hover .step-index {
+    background: var(--blue);
+    color: var(--white);
   }
 
   .step-content { padding: 20px 24px; }
@@ -722,7 +890,7 @@
 
   .ref-intro p {
     font-size: 15px;
-    color: rgba(255,255,255,0.5);
+    color: rgba(255,255,255,0.45);
     line-height: 1.75;
     font-weight: 300;
   }
@@ -794,15 +962,17 @@
   .contact-detail:last-child { border-bottom: none; margin-bottom: 0; }
 
   .contact-icon {
-    width: 38px;
-    height: 38px;
+    width: 38px; height: 38px;
     border: 1px solid var(--border);
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
     color: var(--navy);
+    transition: border-color 0.2s, color 0.2s;
   }
+
+  .contact-detail:hover .contact-icon { border-color: var(--blue); color: var(--blue); }
 
   .contact-detail-label {
     font-family: var(--mono);
@@ -813,11 +983,7 @@
     margin-bottom: 3px;
   }
 
-  .contact-detail-value {
-    font-size: 14px;
-    color: var(--text);
-    line-height: 1.5;
-  }
+  .contact-detail-value { font-size: 14px; color: var(--text); line-height: 1.5; }
 
   .contact-form {
     background: var(--off-white);
@@ -889,10 +1055,7 @@
   .form-submit:hover { background: var(--blue); border-color: var(--blue); }
 
   /* ─── FOOTER ─── */
-  footer {
-    background: var(--navy);
-    padding: 36px 32px;
-  }
+  footer { background: var(--navy); padding: 36px 32px; }
 
   .footer-inner {
     max-width: 1280px;
@@ -907,8 +1070,7 @@
   .footer-brand { display: flex; align-items: center; gap: 12px; }
 
   .footer-emblem {
-    width: 30px;
-    height: 30px;
+    width: 30px; height: 30px;
     border: 1px solid rgba(255,255,255,0.2);
     display: flex;
     align-items: center;
@@ -942,21 +1104,22 @@
 
   .footer-links a:hover { color: rgba(255,255,255,0.65); }
 
-  /* ─── ANIMATIONS ─── */
+  /* ─── HERO ANIMATIONS ─── */
   @keyframes fadeIn {
     from { opacity: 0; transform: translateY(16px); }
-    to { opacity: 1; transform: translateY(0); }
+    to   { opacity: 1; transform: translateY(0); }
   }
 
   .hero-eyebrow { animation: fadeIn 0.6s 0.1s ease both; }
-  h1 { animation: fadeIn 0.6s 0.2s ease both; }
-  .hero-lead { animation: fadeIn 0.6s 0.3s ease both; }
+  #hero h1      { animation: fadeIn 0.6s 0.2s ease both; }
+  .hero-lead    { animation: fadeIn 0.6s 0.3s ease both; }
+  .hero-ticker  { animation: fadeIn 0.6s 0.35s ease both; }
   .hero-actions { animation: fadeIn 0.6s 0.4s ease both; }
   .hero-sidebar { animation: fadeIn 0.6s 0.5s ease both; }
 
-  /* ═══════════════════════════════════════
-     RESPONSIVE — Tablet (max 1024px)
-  ═══════════════════════════════════════ */
+  /* ═══════════════════════
+     RESPONSIVE — Tablet
+  ═══════════════════════ */
   @media (max-width: 1024px) {
     #hero {
       grid-template-columns: 1fr;
@@ -972,10 +1135,7 @@
       padding-top: 40px;
     }
 
-    .hero-stat-group {
-      flex-direction: row;
-      gap: 0;
-    }
+    .hero-stat-group { flex-direction: row; }
 
     .hero-stat {
       flex: 1;
@@ -989,15 +1149,11 @@
 
     .about-layout { grid-template-columns: 1fr; gap: 40px; }
 
-    .core-header { grid-template-columns: 1fr; gap: 20px; }
+    .sectors-header { grid-template-columns: 1fr; gap: 16px; }
+    .sectors-grid { grid-template-columns: repeat(2, 1fr); }
 
+    .core-header { grid-template-columns: 1fr; gap: 16px; }
     .core-cards { grid-template-columns: 1fr 1fr; }
-    .core-card:nth-child(2) { border-right: none; }
-    .core-card:nth-child(3) {
-      border-right: none;
-      border-top: 1px solid var(--border);
-      grid-column: 1 / -1;
-    }
 
     .services-grid { grid-template-columns: repeat(2, 1fr); }
 
@@ -1009,24 +1165,18 @@
     .contact-layout { grid-template-columns: 1fr; gap: 48px; }
   }
 
-  /* ═══════════════════════════════════════
-     RESPONSIVE — Mobile (max 768px)
-  ═══════════════════════════════════════ */
+  /* ═══════════════════════
+     RESPONSIVE — Mobile
+  ═══════════════════════ */
   @media (max-width: 768px) {
-    /* Nav: show hamburger, hide links */
     .nav-links { display: none; }
     .nav-contact.desktop-only { display: none; }
     .nav-toggle { display: flex; }
-
     .nav-inner { padding: 0 20px; }
 
-    /* Hero */
     #hero { padding: 100px 20px 56px; }
 
-    .hero-stat-group {
-      flex-direction: column;
-      gap: 0;
-    }
+    .hero-stat-group { flex-direction: column; }
 
     .hero-stat {
       padding: 20px 0;
@@ -1035,50 +1185,30 @@
     }
 
     .hero-stat:last-child { border-bottom: none; }
-
     .stat-figure { font-size: 36px; }
 
-    /* Sections */
+    .ticker-track { animation-duration: 14s; }
+
     .section-wrap { padding: 56px 20px; }
 
-    /* Core cards: stack on mobile */
+    .sectors-grid { grid-template-columns: 1fr 1fr; }
+
     .core-cards { grid-template-columns: 1fr; }
 
-    .core-card {
-      border-right: none;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .core-card:last-child { border-bottom: none; }
-
-    .core-card:nth-child(3) {
-      grid-column: auto;
-      border-top: none;
-      border-bottom: none;
-    }
-
-    /* Services: 1 column */
     .services-grid { grid-template-columns: 1fr; }
 
-    /* References: 2 columns */
     .ref-grid { grid-template-columns: repeat(2, 1fr); }
 
-    /* Process steps */
     .process-step { grid-template-columns: 48px 1fr; }
 
-    /* Contact form rows */
     .form-row { grid-template-columns: 1fr; }
 
-    /* Footer */
     footer { padding: 28px 20px; }
-
     .footer-inner { flex-direction: column; align-items: flex-start; gap: 20px; }
-
     .footer-copy { order: 3; }
 
     .nav-mobile { padding: 16px 20px 24px; }
 
-    /* Capability table: hide status column on very small screens for readability */
     .cap-header,
     .cap-row { grid-template-columns: 28px 1fr; }
 
@@ -1086,16 +1216,11 @@
     .cap-status { display: none; }
   }
 
-  /* ═══════════════════════════════════════
-     RESPONSIVE — Small mobile (max 480px)
-  ═══════════════════════════════════════ */
   @media (max-width: 480px) {
     .logo-tagline { display: none; }
-
     h1 { font-size: 32px; }
-
-    .ref-grid { grid-template-columns: 1fr; }
-
+    .sectors-grid { grid-template-columns: 1fr; }
+    .ref-grid { grid-template-columns: 1fr 1fr; }
     .contact-form { padding: 24px 20px; }
   }
 </style>
@@ -1120,27 +1245,24 @@
       </div>
     </a>
 
-    <!-- Desktop links -->
     <ul class="nav-links" role="navigation" aria-label="Ana Menü">
       <li><a href="#about">Hakkımızda</a></li>
+      <li><a href="#sectors">Sektörler</a></li>
       <li><a href="#core-services">Hizmetler</a></li>
       <li><a href="#process">Süreç</a></li>
       <li><a href="#references">Referanslar</a></li>
     </ul>
     <a href="#contact" class="nav-contact desktop-only">İletişim</a>
 
-    <!-- Mobile hamburger -->
     <button class="nav-toggle" id="navToggle" aria-label="Menüyü Aç" aria-expanded="false" aria-controls="navMobile">
-      <span></span>
-      <span></span>
-      <span></span>
+      <span></span><span></span><span></span>
     </button>
   </div>
 
-  <!-- Mobile dropdown menu -->
   <div class="nav-mobile" id="navMobile" aria-hidden="true">
     <ul>
       <li><a href="#about" class="nav-mobile-link">Hakkımızda</a></li>
+      <li><a href="#sectors" class="nav-mobile-link">Sektörler</a></li>
       <li><a href="#core-services" class="nav-mobile-link">Hizmetler</a></li>
       <li><a href="#process" class="nav-mobile-link">Süreç</a></li>
       <li><a href="#references" class="nav-mobile-link">Referanslar</a></li>
@@ -1155,33 +1277,58 @@
     <div class="hero-content">
       <div class="hero-eyebrow">
         <div class="eyebrow-line"></div>
-        <span class="eyebrow-text">Kuruluş 2008 · İstanbul, Türkiye</span>
+        <span class="eyebrow-text">Kuruluş 2008 · Ankara, Türkiye</span>
       </div>
       <h1>
-        Endüstriyel &<br>
-        Savunma <em>Elektroniği</em><br>
-        Mühendisliği
+        Elektronik Kart<br>
+        Onarım & <em>Mühendislik</em><br>
+        Hizmetleri
       </h1>
       <p class="hero-lead">
-        ODSAN Elektronik; elektronik kart onarımı, PCB tasarım ve endüstriyel sistem mühendisliği alanlarında kritik sistemler için kanıtlanmış mühendislik uzmanlığı sunar.
+        ODSAN Elektronik; iş makinesi, medikal, endüstriyel ve savunma elektroniği alanlarında kart onarımı, PCB tasarımı ve sistem mühendisliği hizmetleri sunar.
       </p>
+
+      <!-- Scrolling keyword ticker -->
+      <div class="hero-ticker" aria-hidden="true">
+        <div class="ticker-track" id="tickerTrack">
+          <span class="ticker-item"><span>→</span>İş Makinesi Kart Tamiri</span>
+          <span class="ticker-item"><span>→</span>Medikal Elektronik Onarım</span>
+          <span class="ticker-item"><span>→</span>PCB Tasarım & Üretim</span>
+          <span class="ticker-item"><span>→</span>PLC / Servo Sürücü Onarımı</span>
+          <span class="ticker-item"><span>→</span>BGA Yeniden Lehimleme</span>
+          <span class="ticker-item"><span>→</span>Savunma Elektroniği</span>
+          <span class="ticker-item"><span>→</span>Endüstriyel Otomasyon</span>
+          <span class="ticker-item"><span>→</span>Enerji Santrali Kart Onarımı</span>
+          <!-- Duplicate for seamless loop -->
+          <span class="ticker-item"><span>→</span>İş Makinesi Kart Tamiri</span>
+          <span class="ticker-item"><span>→</span>Medikal Elektronik Onarım</span>
+          <span class="ticker-item"><span>→</span>PCB Tasarım & Üretim</span>
+          <span class="ticker-item"><span>→</span>PLC / Servo Sürücü Onarımı</span>
+          <span class="ticker-item"><span>→</span>BGA Yeniden Lehimleme</span>
+          <span class="ticker-item"><span>→</span>Savunma Elektroniği</span>
+          <span class="ticker-item"><span>→</span>Endüstriyel Otomasyon</span>
+          <span class="ticker-item"><span>→</span>Enerji Santrali Kart Onarımı</span>
+        </div>
+      </div>
+
       <div class="hero-actions">
-        <a href="#core-services" class="btn-primary">Hizmetlerimiz</a>
+        <a href="#sectors" class="btn-primary">Hizmet Verdiğimiz Sektörler</a>
         <a href="#contact" class="btn-outline">Teklif Talep Edin</a>
       </div>
     </div>
+
     <div class="hero-sidebar" aria-label="Özet İstatistikler">
       <div class="hero-stat-group">
         <div class="hero-stat">
-          <div class="stat-figure">15<sup>+</sup></div>
-          <div class="stat-desc">Yıl endüstriyel elektronik deneyimi</div>
+          <div class="stat-figure"><span class="counter" data-target="15">0</span><sup>+</sup></div>
+          <div class="stat-desc">Yıl elektronik kart onarım deneyimi</div>
         </div>
         <div class="hero-stat">
-          <div class="stat-figure">500<sup>+</sup></div>
+          <div class="stat-figure"><span class="counter" data-target="500">0</span><sup>+</sup></div>
           <div class="stat-desc">Tamamlanan proje ve onarım iş emri</div>
         </div>
         <div class="hero-stat">
-          <div class="stat-figure">98<sup>%</sup></div>
+          <div class="stat-figure"><span class="counter" data-target="98">0</span><sup>%</sup></div>
           <div class="stat-desc">Müşteri memnuniyeti ve başarı oranı</div>
         </div>
       </div>
@@ -1195,7 +1342,7 @@
 <section id="about" aria-label="Hakkımızda">
   <div class="section-wrap">
     <div class="about-layout">
-      <div class="about-body">
+      <div class="about-body reveal">
         <div class="section-label">
           <div class="eyebrow-line"></div>
           <span>Kurumsal Kimlik</span>
@@ -1203,61 +1350,208 @@
         <div class="about-header">
           <h2>Güvenilir Mühendislik,<br>Kanıtlanmış Sonuçlar</h2>
         </div>
-        <p>ODSAN Elektronik, endüstriyel otomasyon, savunma elektroniği ve kritik sistem altyapılarında kapsamlı mühendislik çözümleri sunan köklü bir teknoloji kuruluşudur. On beş yılı aşkın deneyimle edindiğimiz teknik bilgi birikimini güncel mühendislik standartlarıyla harmanlayarak güvenilir çözümler sunuyoruz.</p>
-        <p>ISO 9001 ve savunma sanayii kalite standartları çerçevesinde faaliyet gösteren şirketimiz; tasarımdan teslimata uzanan tüm süreçlerde titiz kalite kontrol prosedürleri uygulamaktadır.</p>
-        <div class="cert-row" aria-label="Sertifikalar ve Standartlar">
+        <p>ODSAN Elektronik, iş makinesi elektroniğinden medikal cihaz kartlarına, endüstriyel otomasyon sistemlerinden savunma elektroniğine uzanan geniş bir yelpazede kapsamlı kart onarım ve mühendislik çözümleri sunan köklü bir teknoloji kuruluşudur.</p>
+        <p>ISO 9001 ve ilgili sektör kalite standartları çerçevesinde faaliyet gösteren şirketimiz; tasarımdan teslimata uzanan tüm süreçlerde titiz kalite kontrol prosedürleri uygulamaktadır.</p>
+        <div class="cert-row" aria-label="Sertifikalar">
           <span class="cert">ISO 9001:2015</span>
           <span class="cert">TSE Onaylı</span>
-          <span class="cert">SSB Yetkilisi</span>
           <span class="cert">IPC Class 3</span>
           <span class="cert">MIL-STD</span>
           <span class="cert">IPC-7711/21</span>
+          <span class="cert">CE Uyumlu</span>
         </div>
       </div>
-      <div>
+      <div class="reveal reveal-delay-2">
         <div class="capability-list" role="table" aria-label="Mühendislik Yetkinlikleri">
           <div class="cap-header" role="row">
             <span role="columnheader">No.</span>
-            <span role="columnheader">Mühendislik Yetkinliği</span>
+            <span role="columnheader">Yetkinlik</span>
             <span role="columnheader" style="text-align:right">Durum</span>
           </div>
-          <div class="cap-row" role="row">
-            <span class="cap-idx" role="cell">01</span>
-            <span class="cap-name" role="cell">Elektronik Kart Onarımı</span>
-            <span class="cap-status" role="cell">Aktif</span>
-          </div>
-          <div class="cap-row" role="row">
-            <span class="cap-idx" role="cell">02</span>
-            <span class="cap-name" role="cell">PCB Tasarım ve Geliştirme</span>
-            <span class="cap-status" role="cell">Aktif</span>
-          </div>
-          <div class="cap-row" role="row">
-            <span class="cap-idx" role="cell">03</span>
-            <span class="cap-name" role="cell">Endüstriyel Sistem Mühendisliği</span>
-            <span class="cap-status" role="cell">Aktif</span>
-          </div>
-          <div class="cap-row" role="row">
-            <span class="cap-idx" role="cell">04</span>
-            <span class="cap-name" role="cell">Gömülü Sistem Geliştirme</span>
-            <span class="cap-status" role="cell">Aktif</span>
-          </div>
-          <div class="cap-row" role="row">
-            <span class="cap-idx" role="cell">05</span>
-            <span class="cap-name" role="cell">Savunma Sistem Entegrasyonu</span>
-            <span class="cap-status" role="cell">Aktif</span>
-          </div>
-          <div class="cap-row" role="row">
-            <span class="cap-idx" role="cell">06</span>
-            <span class="cap-name" role="cell">EMC/EMI Test ve Sertifikasyon</span>
-            <span class="cap-status" role="cell">Aktif</span>
-          </div>
-          <div class="cap-row" role="row">
-            <span class="cap-idx" role="cell">07</span>
-            <span class="cap-name" role="cell">Ömür Uzatma ve Modernizasyon</span>
-            <span class="cap-status" role="cell">Aktif</span>
-          </div>
+          <div class="cap-row" role="row"><span class="cap-idx">01</span><span class="cap-name">İş Makinesi Elektronik Kart Onarımı</span><span class="cap-status">Aktif</span></div>
+          <div class="cap-row" role="row"><span class="cap-idx">02</span><span class="cap-name">Medikal Cihaz Kart Onarımı</span><span class="cap-status">Aktif</span></div>
+          <div class="cap-row" role="row"><span class="cap-idx">03</span><span class="cap-name">PCB Tasarım ve Geliştirme</span><span class="cap-status">Aktif</span></div>
+          <div class="cap-row" role="row"><span class="cap-idx">04</span><span class="cap-name">Endüstriyel Sistem Mühendisliği</span><span class="cap-status">Aktif</span></div>
+          <div class="cap-row" role="row"><span class="cap-idx">05</span><span class="cap-name">Savunma Sistem Entegrasyonu</span><span class="cap-status">Aktif</span></div>
+          <div class="cap-row" role="row"><span class="cap-idx">06</span><span class="cap-name">Gömülü Sistem Geliştirme</span><span class="cap-status">Aktif</span></div>
+          <div class="cap-row" role="row"><span class="cap-idx">07</span><span class="cap-name">Ömür Uzatma ve Modernizasyon</span><span class="cap-status">Aktif</span></div>
         </div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTORS — YENİ BÖLÜM -->
+<section id="sectors" aria-label="Hizmet Sektörleri">
+  <div class="section-wrap">
+    <div class="sectors-header reveal">
+      <div>
+        <div class="section-label">
+          <div class="eyebrow-line"></div>
+          <span>Hizmet Verdiğimiz Sektörler</span>
+        </div>
+        <h2>Hangi Sektörlere<br>Hizmet Veriyoruz?</h2>
+      </div>
+      <p>Farklı sektörlerin kendine özgü teknik gereksinimleri ve kalite standartları vardır. Her sektörün ihtiyacına özel bilgi birikimimiz ve referanslarımız mevcuttur.</p>
+    </div>
+
+    <div class="sectors-grid">
+
+      <!-- İş Makinesi -->
+      <div class="sector-card reveal">
+        <div class="sector-icon" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3">
+            <rect x="2" y="8" width="14" height="10" rx="0"/>
+            <path d="M16 10l4-4v12l-4-4"/>
+            <circle cx="6" cy="20" r="2"/>
+            <circle cx="12" cy="20" r="2"/>
+          </svg>
+        </div>
+        <h3>İş Makinesi Elektroniği</h3>
+        <p>Ekskavatör, forklift, vinç, iş makinesi ve ağır taşıt elektronik kontrol kartlarının onarımı. Motor kontrol üniteleri, hidrolik kontrol kartları ve operatör panelleri.</p>
+        <div class="sector-tags">
+          <span class="sector-tag">ECU Onarımı</span>
+          <span class="sector-tag">Hidrolik Kontrol</span>
+          <span class="sector-tag">Motor Sürücüsü</span>
+          <span class="sector-tag">CAN Bus</span>
+        </div>
+      </div>
+
+      <!-- Medikal -->
+      <div class="sector-card reveal reveal-delay-1">
+        <div class="sector-icon" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3">
+            <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+          </svg>
+        </div>
+        <h3>Medikal Cihaz Elektroniği</h3>
+        <p>Tıbbi görüntüleme, hasta izleme, laboratuvar cihazları ve cerrahi ekipman elektronik kartlarının hassas onarımı. IEC 60601 standartlarına uygun servis.</p>
+        <div class="sector-tags">
+          <span class="sector-tag">Görüntüleme Sistemleri</span>
+          <span class="sector-tag">Hasta Monitörü</span>
+          <span class="sector-tag">Laboratuvar Cihazı</span>
+          <span class="sector-tag">IEC 60601</span>
+        </div>
+      </div>
+
+      <!-- Endüstriyel -->
+      <div class="sector-card reveal reveal-delay-2">
+        <div class="sector-icon" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3">
+            <rect x="4" y="4" width="16" height="16" rx="0"/>
+            <rect x="9" y="9" width="6" height="6"/>
+            <line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/>
+            <line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/>
+            <line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="15" x2="23" y2="15"/>
+            <line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="15" x2="4" y2="15"/>
+          </svg>
+        </div>
+        <h3>Endüstriyel Otomasyon</h3>
+        <p>PLC, servo sürücü, frekans invertörü, HMI ve endüstriyel kontrol kartlarının onarımı. Üretim hattı duruşlarını en kısa sürede gidermek için hızlı servis.</p>
+        <div class="sector-tags">
+          <span class="sector-tag">PLC Onarım</span>
+          <span class="sector-tag">Servo Sürücü</span>
+          <span class="sector-tag">Frekans İnvertörü</span>
+          <span class="sector-tag">HMI Panel</span>
+        </div>
+      </div>
+
+      <!-- Enerji -->
+      <div class="sector-card reveal reveal-delay-3">
+        <div class="sector-icon" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+          </svg>
+        </div>
+        <h3>Enerji & Güç Sistemleri</h3>
+        <p>UPS, güç kaynağı, enerji yönetim sistemleri ve rüzgar/güneş inverter kartlarının onarımı. Yüksek gerilim ve güç elektroniği uzmanlığı.</p>
+        <div class="sector-tags">
+          <span class="sector-tag">UPS Onarımı</span>
+          <span class="sector-tag">Güç Kaynağı</span>
+          <span class="sector-tag">Solar İnverter</span>
+          <span class="sector-tag">IGBT Değişimi</span>
+        </div>
+      </div>
+
+      <!-- Savunma -->
+      <div class="sector-card reveal">
+        <div class="sector-icon" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+        </div>
+        <h3>Savunma Sanayii</h3>
+        <p>Savunma sistemleri, askeri araç elektroniği ve kritik görev donanımlarının MIL-STD standartlarında onarım ve bakımı. Gizlilik protokolleri dahilinde çalışma kapasitesi.</p>
+        <div class="sector-tags">
+          <span class="sector-tag">MIL-STD</span>
+          <span class="sector-tag">Askeri Araç ECU</span>
+          <span class="sector-tag">STANAG</span>
+          <span class="sector-tag">Kripto Elektronik</span>
+        </div>
+      </div>
+
+      <!-- Raylı Sistemler -->
+      <div class="sector-card reveal reveal-delay-1">
+        <div class="sector-icon" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3">
+            <rect x="4" y="3" width="16" height="14" rx="2"/>
+            <line x1="4" y1="10" x2="20" y2="10"/>
+            <line x1="9" y1="17" x2="7" y2="21"/>
+            <line x1="15" y1="17" x2="17" y2="21"/>
+            <circle cx="8.5" cy="13.5" r="1"/>
+            <circle cx="15.5" cy="13.5" r="1"/>
+          </svg>
+        </div>
+        <h3>Raylı Sistemler & Ulaşım</h3>
+        <p>Metro, tramvay, elektrikli araç ve ulaşım altyapısı kontrol elektroniklerinin onarımı. Yüksek güvenilirlik gerektiren sürüş ve kontrol sistemleri.</p>
+        <div class="sector-tags">
+          <span class="sector-tag">Traksiyon Kontrol</span>
+          <span class="sector-tag">Kapı Sistemi</span>
+          <span class="sector-tag">TCMS</span>
+          <span class="sector-tag">EV Elektronik</span>
+        </div>
+      </div>
+
+      <!-- Telekomünikasyon -->
+      <div class="sector-card reveal reveal-delay-2">
+        <div class="sector-icon" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3">
+            <path d="M1 6C1 6 5 2 12 2s11 4 11 4"/>
+            <path d="M5 10s2-2 7-2 7 2 7 2"/>
+            <path d="M9 14s1-1 3-1 3 1 3 1"/>
+            <line x1="12" y1="18" x2="12" y2="18"/>
+            <circle cx="12" cy="18" r="1" fill="currentColor"/>
+          </svg>
+        </div>
+        <h3>Telekomünikasyon</h3>
+        <p>Baz istasyonu, router, switch ve telekomünikasyon altyapı kartlarının onarımı. Saha iletişimi ve sinyal işleme elektronikleri.</p>
+        <div class="sector-tags">
+          <span class="sector-tag">Baz İstasyonu</span>
+          <span class="sector-tag">RF Elektronik</span>
+          <span class="sector-tag">Network Ekipmanı</span>
+          <span class="sector-tag">Fiber Optik</span>
+        </div>
+      </div>
+
+      <!-- Denizcilik -->
+      <div class="sector-card reveal reveal-delay-3">
+        <div class="sector-icon" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3">
+            <path d="M2 20a2 2 0 004 0 2 2 0 004 0 2 2 0 004 0 2 2 0 004 0"/>
+            <path d="M4 20V10l8-8 8 8v10"/>
+            <line x1="12" y1="2" x2="12" y2="20"/>
+          </svg>
+        </div>
+        <h3>Denizcilik & Gemi Elektroniği</h3>
+        <p>Gemi navigasyon, makine kontrol, güverte ekipmanları ve deniz araçları elektroniklerinin korozyon dirençli onarımı. IEC 60945 standartları.</p>
+        <div class="sector-tags">
+          <span class="sector-tag">Navigasyon</span>
+          <span class="sector-tag">Makine Kontrol</span>
+          <span class="sector-tag">NMEA 2000</span>
+          <span class="sector-tag">Korozyon Koruma</span>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
@@ -1265,7 +1559,7 @@
 <!-- CORE SERVICES -->
 <section id="core-services" aria-label="Temel Hizmetler">
   <div class="section-wrap">
-    <div class="core-header">
+    <div class="core-header reveal">
       <div>
         <div class="section-label">
           <div class="eyebrow-line"></div>
@@ -1273,37 +1567,35 @@
         </div>
         <h2>Üç Temel<br>Yetkinlik Alanı</h2>
       </div>
-      <p>Endüstriyel ve savunma projelerinin omurgasını oluşturan bu üç hizmet alanında, ODSAN'ın mühendislik derinliği ve kurumsal deneyimi müşterilerimize güvenilir bir çözüm ortaklığı sunar.</p>
+      <p>Kart onarımından PCB tasarımına, sistem mühendisliğine kadar birbirini tamamlayan üç temel hizmet alanında tam kapsamlı çözüm ortaklığı sunuyoruz.</p>
     </div>
 
     <div class="core-cards">
-      <!-- Card 1 -->
-      <article class="core-card">
+      <article class="core-card reveal">
         <span class="core-card-num">I.</span>
         <div class="core-card-icon" aria-hidden="true">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
-            <rect x="2" y="4" width="20" height="16" rx="0"/>
-            <rect x="6" y="8" width="5" height="4" rx="0"/>
-            <rect x="13" y="8" width="5" height="4" rx="0"/>
+            <rect x="2" y="4" width="20" height="16"/>
+            <rect x="6" y="8" width="5" height="4"/>
+            <rect x="13" y="8" width="5" height="4"/>
             <line x1="6" y1="14" x2="6" y2="16"/>
             <line x1="9" y1="14" x2="9" y2="16"/>
             <line x1="13" y1="14" x2="13" y2="16"/>
             <line x1="16" y1="14" x2="16" y2="16"/>
           </svg>
         </div>
-        <h3>Endüstriyel Elektronik<br>Kart Onarımı</h3>
-        <p>PLC, servo sürücü, HMI ve endüstriyel kontrol kartlarının hassas teşhis ve onarımı. BGA yeniden lehimleme, komponent değişimi ve fonksiyonel doğrulama dahil kapsamlı servis.</p>
+        <h3>Elektronik Kart<br>Onarımı</h3>
+        <p>İş makinesi, medikal, endüstriyel ve savunma alanlarındaki elektronik kartların kapsamlı teşhis ve onarımı. BGA yeniden lehimleme, komponent değişimi ve fonksiyonel doğrulama.</p>
         <div class="core-card-specs">
           <span class="spec-tag">BGA & Fine-Pitch Komponent Değişimi</span>
-          <span class="spec-tag">X-Ray ve AOI Kontrolü</span>
+          <span class="spec-tag">X-Ray ve Mikroskop Destekli Teşhis</span>
           <span class="spec-tag">Tersine Mühendislik ve Dokümantasyon</span>
-          <span class="spec-tag">Fonksiyonel Test ve Garanti</span>
+          <span class="spec-tag">Fonksiyonel Test ve Yazılı Garanti</span>
           <span class="spec-tag">IPC-7711/7721 Standartları</span>
         </div>
       </article>
 
-      <!-- Card 2 -->
-      <article class="core-card">
+      <article class="core-card reveal reveal-delay-1">
         <span class="core-card-num">II.</span>
         <div class="core-card-icon" aria-hidden="true">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
@@ -1317,13 +1609,12 @@
           <span class="spec-tag">Çok Katmanlı PCB (2–16 Katman)</span>
           <span class="spec-tag">Yüksek Frekanslı RF Tasarımı</span>
           <span class="spec-tag">EMC Uyumlu Yerleşim Tasarımı</span>
-          <span class="spec-tag">DFM/DFT Analizi</span>
+          <span class="spec-tag">DFM / DFT Analizi</span>
           <span class="spec-tag">MIL-PRF-31032 Uyumu</span>
         </div>
       </article>
 
-      <!-- Card 3 -->
-      <article class="core-card">
+      <article class="core-card reveal reveal-delay-2">
         <span class="core-card-num">III.</span>
         <div class="core-card-icon" aria-hidden="true">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
@@ -1331,10 +1622,10 @@
             <path d="M12 1v3M12 20v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M1 12h3M20 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/>
           </svg>
         </div>
-        <h3>Endüstriyel Sistem<br>Mühendisliği Projeleri</h3>
+        <h3>Endüstriyel Sistem<br>Mühendisliği</h3>
         <p>Saha uygulamaları için bütünleşik endüstriyel sistem mühendisliği. Otomasyon altyapısı, kontrol panel tasarımı ve endüstriyel iletişim protokollerinin entegrasyonu.</p>
         <div class="core-card-specs">
-          <span class="spec-tag">PLC/SCADA Sistem Tasarımı</span>
+          <span class="spec-tag">PLC / SCADA Sistem Tasarımı</span>
           <span class="spec-tag">Kontrol Panosu Mühendisliği</span>
           <span class="spec-tag">Endüstriyel Protokol Entegrasyonu</span>
           <span class="spec-tag">Devreye Alma ve Saha Desteği</span>
@@ -1348,42 +1639,18 @@
 <!-- OTHER SERVICES -->
 <section id="services" aria-label="Ek Hizmetler">
   <div class="section-wrap">
-    <div class="section-label">
+    <div class="section-label reveal">
       <div class="eyebrow-line"></div>
       <span>Ek Mühendislik Hizmetleri</span>
     </div>
-    <h2>Destekleyici Teknik Yetkinlikler</h2>
+    <h2 class="reveal">Destekleyici Teknik Yetkinlikler</h2>
     <div class="services-grid">
-      <div class="service-tile">
-        <span class="service-tile-num">04.</span>
-        <h4>Savunma Sistem Entegrasyonu</h4>
-        <p>Kara, deniz ve hava platformları için elektronik sistem entegrasyonu. STANAG ve MIL-STD standartlarına tam uyum ile proje yürütme.</p>
-      </div>
-      <div class="service-tile">
-        <span class="service-tile-num">05.</span>
-        <h4>Gömülü Sistem Geliştirme</h4>
-        <p>FPGA, DSP ve mikrodenetleyici tabanlı gömülü yazılım geliştirme. Gerçek zamanlı işletim sistemleri ve kritik uygulama yazılımı.</p>
-      </div>
-      <div class="service-tile">
-        <span class="service-tile-num">06.</span>
-        <h4>EMC/EMI Test ve Doğrulama</h4>
-        <p>Elektromanyetik uyumluluk testleri, çevresel dayanım testleri ve uluslararası sertifikasyon desteği.</p>
-      </div>
-      <div class="service-tile">
-        <span class="service-tile-num">07.</span>
-        <h4>Ömür Uzatma Programları</h4>
-        <p>Eski sistemlerin modernize edilmesi ve temin edilemeyen komponent yönetimi. Kritik altyapı sürekliliği için uzun vadeli çözümler.</p>
-      </div>
-      <div class="service-tile">
-        <span class="service-tile-num">08.</span>
-        <h4>Teknik Danışmanlık</h4>
-        <p>Mühendislik proje yönetimi, teknik inceleme ve fizibilite değerlendirmesi. Savunma tedarik süreçlerinde teknik destek.</p>
-      </div>
-      <div class="service-tile">
-        <span class="service-tile-num">09.</span>
-        <h4>Satış Sonrası Destek</h4>
-        <p>Teslim edilen sistemler için uzun vadeli teknik destek, yedek parça yönetimi ve periyodik bakım programları.</p>
-      </div>
+      <div class="service-tile reveal"><span class="service-tile-num">04.</span><h4>Savunma Sistem Entegrasyonu</h4><p>Kara, deniz ve hava platformları için elektronik sistem entegrasyonu. STANAG ve MIL-STD standartlarına tam uyum.</p></div>
+      <div class="service-tile reveal reveal-delay-1"><span class="service-tile-num">05.</span><h4>Gömülü Sistem Geliştirme</h4><p>FPGA, DSP ve mikrodenetleyici tabanlı gömülü yazılım geliştirme. Gerçek zamanlı işletim sistemleri ve kritik uygulama yazılımı.</p></div>
+      <div class="service-tile reveal reveal-delay-2"><span class="service-tile-num">06.</span><h4>EMC/EMI Test ve Doğrulama</h4><p>Elektromanyetik uyumluluk testleri, çevresel dayanım testleri ve uluslararası sertifikasyon desteği.</p></div>
+      <div class="service-tile reveal"><span class="service-tile-num">07.</span><h4>Ömür Uzatma Programları</h4><p>Eski sistemlerin modernize edilmesi ve temin edilemeyen komponent yönetimi. Kritik altyapı sürekliliği için uzun vadeli çözümler.</p></div>
+      <div class="service-tile reveal reveal-delay-1"><span class="service-tile-num">08.</span><h4>Teknik Danışmanlık</h4><p>Mühendislik proje yönetimi, teknik inceleme ve fizibilite değerlendirmesi. Savunma tedarik süreçlerinde teknik destek.</p></div>
+      <div class="service-tile reveal reveal-delay-2"><span class="service-tile-num">09.</span><h4>Satış Sonrası Destek</h4><p>Teslim edilen sistemler için uzun vadeli teknik destek, yedek parça yönetimi ve periyodik bakım programları.</p></div>
     </div>
   </div>
 </section>
@@ -1391,50 +1658,35 @@
 <!-- PROCESS -->
 <section id="process" aria-label="Proje Süreci">
   <div class="section-wrap">
-    <div class="section-label">
+    <div class="section-label reveal">
       <div class="eyebrow-line"></div>
       <span>Proje Süreci</span>
     </div>
     <div class="process-layout">
-      <div class="process-intro">
+      <div class="process-intro reveal">
         <h2>Talepten<br>Teslimata</h2>
         <p>Her projede şeffaf, öngörülebilir ve belgelenmiş bir süreç işletiyoruz. Teknik gereksinimlerinizden teslimata kadar her aşama titizlikle yönetilir.</p>
       </div>
-      <ol class="process-steps" aria-label="Proje Adımları">
+      <ol class="process-steps reveal reveal-delay-1">
         <li class="process-step">
           <div class="step-index" aria-hidden="true">I</div>
-          <div class="step-content">
-            <h4>Talep ve Teknik Analiz</h4>
-            <p>Teknik gereksinimleriniz kapsamlı biçimde değerlendirilir, fizibilite ve risk analizi yapılır.</p>
-          </div>
+          <div class="step-content"><h4>Talep ve Teknik Analiz</h4><p>Teknik gereksinimleriniz kapsamlı biçimde değerlendirilir, fizibilite ve risk analizi yapılır.</p></div>
         </li>
         <li class="process-step">
           <div class="step-index" aria-hidden="true">II</div>
-          <div class="step-content">
-            <h4>Teklif ve Proje Planlaması</h4>
-            <p>Proje kapsamı, zaman çizelgesi, kaynak planı ve maliyet analizi hazırlanarak onayınıza sunulur.</p>
-          </div>
+          <div class="step-content"><h4>Teklif ve Proje Planlaması</h4><p>Proje kapsamı, zaman çizelgesi, kaynak planı ve maliyet analizi hazırlanarak onayınıza sunulur.</p></div>
         </li>
         <li class="process-step">
           <div class="step-index" aria-hidden="true">III</div>
-          <div class="step-content">
-            <h4>Mühendislik ve Üretim</h4>
-            <p>Tasarım, geliştirme veya onarım işlemleri standart prosedürler ve kalite kontrol süreçleri dahilinde yürütülür.</p>
-          </div>
+          <div class="step-content"><h4>Mühendislik ve Üretim</h4><p>Tasarım, geliştirme veya onarım işlemleri standart prosedürler ve kalite kontrol süreçleri dahilinde yürütülür.</p></div>
         </li>
         <li class="process-step">
           <div class="step-index" aria-hidden="true">IV</div>
-          <div class="step-content">
-            <h4>Test, Doğrulama ve Kabul</h4>
-            <p>Kapsamlı test prosedürleri uygulanır. Kalite standartlarına uyum ve müşteri kabul kriterleri doğrulanır.</p>
-          </div>
+          <div class="step-content"><h4>Test, Doğrulama ve Kabul</h4><p>Kapsamlı test prosedürleri uygulanır. Kalite standartlarına uyum ve müşteri kabul kriterleri doğrulanır.</p></div>
         </li>
         <li class="process-step">
           <div class="step-index" aria-hidden="true">V</div>
-          <div class="step-content">
-            <h4>Teslim ve Uzun Vadeli Destek</h4>
-            <p>Teknik dokümantasyon eşliğinde teslim gerçekleştirilir. Satış sonrası teknik destek güvence altına alınır.</p>
-          </div>
+          <div class="step-content"><h4>Teslim ve Uzun Vadeli Destek</h4><p>Teknik dokümantasyon eşliğinde teslim gerçekleştirilir. Satış sonrası teknik destek güvence altına alınır.</p></div>
         </li>
       </ol>
     </div>
@@ -1444,7 +1696,7 @@
 <!-- REFERENCES -->
 <section id="references" aria-label="Referanslar">
   <div class="section-wrap">
-    <div class="ref-intro">
+    <div class="ref-intro reveal">
       <div>
         <div class="section-label">
           <div class="eyebrow-line"></div>
@@ -1452,41 +1704,17 @@
         </div>
         <h2>Güvenilir<br>Ortaklıklar</h2>
       </div>
-      <p style="color:rgba(255,255,255,0.45)">Türkiye'nin önde gelen savunma sanayii ve endüstriyel kuruluşlarıyla uzun soluklu iş birlikleri kuruyoruz. Her proje, kalitemizin ve güvenilirliğimizin somut bir yansımasıdır.</p>
+      <p>Türkiye'nin önde gelen savunma sanayii, sağlık ve endüstriyel kuruluşlarıyla uzun soluklu iş birlikleri kuruyoruz.</p>
     </div>
-    <div class="ref-grid">
-      <div class="ref-card">
-        <div class="ref-card-name">Savunma Sanayii</div>
-        <div class="ref-card-sector">Elektronik Sistem Entegrasyonu</div>
-      </div>
-      <div class="ref-card">
-        <div class="ref-card-name">Havacılık & Uzay</div>
-        <div class="ref-card-sector">Gömülü Sistem Geliştirme</div>
-      </div>
-      <div class="ref-card">
-        <div class="ref-card-name">Enerji Sektörü</div>
-        <div class="ref-card-sector">Endüstriyel Otomasyon</div>
-      </div>
-      <div class="ref-card">
-        <div class="ref-card-name">Telekomünikasyon</div>
-        <div class="ref-card-sector">PCB Tasarım & Üretim</div>
-      </div>
-      <div class="ref-card">
-        <div class="ref-card-name">Ulaşım & Raylı Sistemler</div>
-        <div class="ref-card-sector">Kart Onarım & Servis</div>
-      </div>
-      <div class="ref-card">
-        <div class="ref-card-name">Kamu Kurumları</div>
-        <div class="ref-card-sector">Kritik Altyapı Sistemleri</div>
-      </div>
-      <div class="ref-card">
-        <div class="ref-card-name">Üretim & Otomasyon</div>
-        <div class="ref-card-sector">PLC / SCADA Projeleri</div>
-      </div>
-      <div class="ref-card">
-        <div class="ref-card-name">Denizcilik</div>
-        <div class="ref-card-sector">Deniz Elektronik Sistemleri</div>
-      </div>
+    <div class="ref-grid reveal">
+      <div class="ref-card"><div class="ref-card-name">Savunma Sanayii</div><div class="ref-card-sector">Elektronik Sistem Entegrasyonu</div></div>
+      <div class="ref-card"><div class="ref-card-name">Havacılık & Uzay</div><div class="ref-card-sector">Gömülü Sistem Geliştirme</div></div>
+      <div class="ref-card"><div class="ref-card-name">Sağlık Sektörü</div><div class="ref-card-sector">Medikal Cihaz Onarımı</div></div>
+      <div class="ref-card"><div class="ref-card-name">İş Makinesi OEM</div><div class="ref-card-sector">ECU & Kontrol Kartı Onarımı</div></div>
+      <div class="ref-card"><div class="ref-card-name">Enerji Sektörü</div><div class="ref-card-sector">Güç Elektroniği Onarımı</div></div>
+      <div class="ref-card"><div class="ref-card-name">Raylı Sistemler</div><div class="ref-card-sector">Traksiyon & Kontrol Elektroniği</div></div>
+      <div class="ref-card"><div class="ref-card-name">Üretim & Otomasyon</div><div class="ref-card-sector">PLC / SCADA Projeleri</div></div>
+      <div class="ref-card"><div class="ref-card-name">Telekomünikasyon</div><div class="ref-card-sector">PCB Tasarım & Üretim</div></div>
     </div>
   </div>
 </section>
@@ -1495,7 +1723,7 @@
 <section id="contact" aria-label="İletişim">
   <div class="section-wrap">
     <div class="contact-layout">
-      <div class="contact-left">
+      <div class="contact-left reveal">
         <div class="section-label">
           <div class="eyebrow-line"></div>
           <span>İletişim</span>
@@ -1526,13 +1754,13 @@
           </div>
           <div class="contact-detail-body">
             <div class="contact-detail-label">Adres</div>
-            <div class="contact-detail-value">Savunma Sanayii OSB<br>İstanbul / Türkiye</div>
+            <div class="contact-detail-value">Savunma Sanayii OSB<br>Ankara / Türkiye</div>
           </div>
         </div>
       </div>
 
-      <div class="contact-form">
-        <div class="form-title">Proje Talebi</div>
+      <div class="contact-form reveal reveal-delay-2">
+        <div class="form-title">Proje / Onarım Talebi</div>
         <form action="#" method="POST" novalidate>
           <div class="form-row">
             <div class="form-group">
@@ -1558,19 +1786,25 @@
             <label for="service">Hizmet Kategorisi</label>
             <select id="service" name="service">
               <option value="" disabled selected>Seçiniz...</option>
-              <option value="kart-onarim">Endüstriyel Elektronik Kart Onarımı</option>
-              <option value="pcb-tasarim">PCB Tasarım ve Geliştirme</option>
-              <option value="sistem-muhendisligi">Endüstriyel Sistem Mühendisliği</option>
-              <option value="savunma">Savunma Sistem Entegrasyonu</option>
-              <option value="gomulu">Gömülü Sistem Geliştirme</option>
-              <option value="emc">EMC/EMI Test ve Sertifikasyon</option>
-              <option value="omur-uzatma">Ömür Uzatma ve Modernizasyon</option>
-              <option value="danismanlik">Teknik Danışmanlık</option>
+              <optgroup label="── Kart Onarımı ──">
+                <option value="is-makinesi">İş Makinesi Elektronik Kart Onarımı</option>
+                <option value="medikal">Medikal Cihaz Kart Onarımı</option>
+                <option value="endustriyel-kart">Endüstriyel Elektronik Kart Onarımı</option>
+                <option value="plc">PLC / Servo Sürücü Onarımı</option>
+                <option value="enerji">Enerji / UPS Kart Onarımı</option>
+              </optgroup>
+              <optgroup label="── Mühendislik Hizmetleri ──">
+                <option value="pcb">PCB Tasarım ve Geliştirme</option>
+                <option value="sistem">Endüstriyel Sistem Mühendisliği</option>
+                <option value="savunma">Savunma Sistem Entegrasyonu</option>
+                <option value="gomulu">Gömülü Sistem Geliştirme</option>
+                <option value="danismanlik">Teknik Danışmanlık</option>
+              </optgroup>
             </select>
           </div>
           <div class="form-group">
-            <label for="message">Proje Açıklaması</label>
-            <textarea id="message" name="message" placeholder="Teknik gereksinimlerinizi ve beklentilerinizi kısaca aktarın..."></textarea>
+            <label for="message">Arıza / Proje Açıklaması</label>
+            <textarea id="message" name="message" placeholder="Cihaz markası, model, arıza belirtisi veya proje gereksinimlerinizi kısaca aktarın..."></textarea>
           </div>
           <button type="submit" class="form-submit">
             <span>Talebi Gönder</span>
@@ -1606,8 +1840,8 @@
 </footer>
 
 <script>
-  // Mobile nav toggle
-  const toggle = document.getElementById('navToggle');
+  /* ── Mobile nav ── */
+  const toggle   = document.getElementById('navToggle');
   const mobileNav = document.getElementById('navMobile');
 
   toggle.addEventListener('click', () => {
@@ -1617,7 +1851,6 @@
     mobileNav.setAttribute('aria-hidden', !isOpen);
   });
 
-  // Close mobile nav on link click
   document.querySelectorAll('.nav-mobile-link').forEach(link => {
     link.addEventListener('click', () => {
       mobileNav.classList.remove('open');
@@ -1626,6 +1859,44 @@
       mobileNav.setAttribute('aria-hidden', 'true');
     });
   });
+
+  /* ── Scroll reveal ── */
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+  /* ── Counter animation ── */
+  const counterObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const el     = entry.target;
+      const target = parseInt(el.dataset.target, 10);
+      const duration = 1400;
+      const step   = Math.ceil(target / (duration / 16));
+      let current  = 0;
+
+      const timer = setInterval(() => {
+        current += step;
+        if (current >= target) {
+          el.textContent = target;
+          clearInterval(timer);
+        } else {
+          el.textContent = current;
+        }
+      }, 16);
+
+      counterObserver.unobserve(el);
+    });
+  }, { threshold: 0.5 });
+
+  document.querySelectorAll('.counter').forEach(el => counterObserver.observe(el));
 </script>
 
 </body>
