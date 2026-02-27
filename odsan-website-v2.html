@@ -1,0 +1,1436 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ODSAN — Endüstriyel & Savunma Teknolojileri</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@300;400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --white: #ffffff;
+    --off-white: #f7f8f9;
+    --light: #eef0f3;
+    --border: #d8dce3;
+    --border-light: #e8eaee;
+    --gray: #8892a0;
+    --gray-mid: #5a6373;
+    --text: #1a2030;
+    --text-soft: #3d4a5c;
+    --navy: #0d1824;
+    --navy-mid: #152237;
+    --blue: #1a5fa8;
+    --blue-light: #e8f0fa;
+    --serif: 'IBM Plex Serif', Georgia, serif;
+    --sans: 'IBM Plex Sans', system-ui, sans-serif;
+    --mono: 'IBM Plex Mono', monospace;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--white);
+    color: var(--text);
+    font-family: var(--sans);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  ::-webkit-scrollbar { width: 3px; }
+  ::-webkit-scrollbar-track { background: var(--light); }
+  ::-webkit-scrollbar-thumb { background: var(--blue); }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 200;
+    background: rgba(255,255,255,0.97);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(8px);
+  }
+
+  .nav-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 48px;
+    height: 68px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    text-decoration: none;
+  }
+
+  .logo-emblem {
+    width: 40px;
+    height: 40px;
+    border: 1.5px solid var(--navy);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .logo-emblem::before {
+    content: '';
+    position: absolute;
+    inset: 4px;
+    border: 1px solid var(--blue);
+  }
+
+  .logo-emblem svg {
+    position: relative;
+    z-index: 1;
+  }
+
+  .logo-wordmark {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+
+  .logo-main {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: 20px;
+    letter-spacing: 3px;
+    color: var(--navy);
+    line-height: 1;
+  }
+
+  .logo-tagline {
+    font-family: var(--mono);
+    font-size: 8.5px;
+    letter-spacing: 2px;
+    color: var(--gray);
+    text-transform: uppercase;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 40px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--gray-mid);
+    text-decoration: none;
+    letter-spacing: 0.3px;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--navy); }
+
+  .nav-contact {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--blue);
+    text-decoration: none;
+    border: 1px solid var(--blue);
+    padding: 9px 22px;
+    letter-spacing: 0.3px;
+    transition: all 0.2s;
+  }
+
+  .nav-contact:hover {
+    background: var(--blue);
+    color: var(--white);
+  }
+
+  /* ─── HERO ─── */
+  #hero {
+    padding: 160px 48px 100px;
+    max-width: 1280px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 80px;
+    align-items: center;
+    min-height: 100vh;
+  }
+
+  .hero-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+
+  .eyebrow-line {
+    width: 28px;
+    height: 1px;
+    background: var(--blue);
+    flex-shrink: 0;
+  }
+
+  .eyebrow-text {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 2.5px;
+    color: var(--blue);
+    text-transform: uppercase;
+  }
+
+  h1 {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: clamp(40px, 5vw, 64px);
+    line-height: 1.15;
+    color: var(--navy);
+    margin-bottom: 28px;
+    letter-spacing: -0.5px;
+  }
+
+  h1 em {
+    font-style: normal;
+    color: var(--blue);
+  }
+
+  .hero-lead {
+    font-size: 17px;
+    line-height: 1.75;
+    color: var(--text-soft);
+    font-weight: 300;
+    max-width: 540px;
+    margin-bottom: 44px;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+  }
+
+  .btn-primary {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--white);
+    background: var(--navy);
+    border: 1.5px solid var(--navy);
+    padding: 13px 28px;
+    text-decoration: none;
+    letter-spacing: 0.5px;
+    transition: all 0.2s;
+    display: inline-block;
+  }
+
+  .btn-primary:hover {
+    background: var(--blue);
+    border-color: var(--blue);
+  }
+
+  .btn-outline {
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--navy);
+    background: transparent;
+    border: 1.5px solid var(--border);
+    padding: 13px 28px;
+    text-decoration: none;
+    letter-spacing: 0.3px;
+    transition: all 0.2s;
+    display: inline-block;
+  }
+
+  .btn-outline:hover {
+    border-color: var(--navy);
+  }
+
+  /* Hero sidebar */
+  .hero-sidebar {
+    border-left: 1px solid var(--border);
+    padding-left: 48px;
+  }
+
+  .hero-stat-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .hero-stat {
+    padding: 28px 0;
+    border-bottom: 1px solid var(--border-light);
+  }
+
+  .hero-stat:first-child { padding-top: 0; }
+  .hero-stat:last-child { border-bottom: none; }
+
+  .stat-figure {
+    font-family: var(--serif);
+    font-size: 44px;
+    font-weight: 300;
+    color: var(--navy);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .stat-figure sup {
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--blue);
+  }
+
+  .stat-desc {
+    font-size: 13px;
+    color: var(--gray-mid);
+    font-weight: 400;
+    line-height: 1.4;
+  }
+
+  /* ─── DIVIDER ─── */
+  .section-divider {
+    border: none;
+    border-top: 1px solid var(--border);
+  }
+
+  /* ─── COMMON SECTION ─── */
+  .section-wrap {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 96px 48px;
+  }
+
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .section-label .eyebrow-line { background: var(--border); }
+
+  .section-label span {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    color: var(--gray);
+    text-transform: uppercase;
+  }
+
+  h2 {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: clamp(30px, 3.5vw, 46px);
+    line-height: 1.2;
+    color: var(--navy);
+    letter-spacing: -0.3px;
+  }
+
+  h3 {
+    font-family: var(--serif);
+    font-weight: 500;
+    color: var(--navy);
+  }
+
+  /* ─── ABOUT ─── */
+  #about {
+    background: var(--off-white);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .about-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 96px;
+    align-items: start;
+  }
+
+  .about-header {
+    margin-bottom: 32px;
+  }
+
+  .about-body p {
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--text-soft);
+    font-weight: 300;
+    margin-bottom: 18px;
+  }
+
+  .cert-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 36px;
+    padding-top: 28px;
+    border-top: 1px solid var(--border);
+  }
+
+  .cert {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: var(--gray-mid);
+    border: 1px solid var(--border);
+    padding: 5px 12px;
+    background: var(--white);
+  }
+
+  /* About data table */
+  .capability-list {
+    border: 1px solid var(--border);
+    background: var(--white);
+    overflow: hidden;
+  }
+
+  .cap-header {
+    background: var(--navy);
+    padding: 14px 24px;
+    display: grid;
+    grid-template-columns: 32px 1fr 80px;
+    gap: 16px;
+  }
+
+  .cap-header span {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: rgba(255,255,255,0.4);
+    text-transform: uppercase;
+  }
+
+  .cap-row {
+    display: grid;
+    grid-template-columns: 32px 1fr 80px;
+    gap: 16px;
+    align-items: center;
+    padding: 15px 24px;
+    border-bottom: 1px solid var(--border-light);
+    transition: background 0.15s;
+  }
+
+  .cap-row:last-child { border-bottom: none; }
+  .cap-row:hover { background: var(--off-white); }
+
+  .cap-idx {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--gray);
+  }
+
+  .cap-name {
+    font-size: 13px;
+    color: var(--text);
+    font-weight: 400;
+  }
+
+  .cap-status {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: #2a7a4f;
+    text-align: right;
+  }
+
+  /* ─── CORE SERVICES (prominent) ─── */
+  #core-services {
+    background: var(--white);
+  }
+
+  .core-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: end;
+    margin-bottom: 64px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .core-header p {
+    font-size: 15px;
+    color: var(--text-soft);
+    line-height: 1.75;
+    font-weight: 300;
+  }
+
+  .core-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border: 1px solid var(--border);
+  }
+
+  .core-card {
+    padding: 48px 40px;
+    border-right: 1px solid var(--border);
+    position: relative;
+    transition: background 0.25s;
+    cursor: default;
+    overflow: hidden;
+  }
+
+  .core-card:last-child { border-right: none; }
+
+  .core-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: transparent;
+    transition: background 0.25s;
+  }
+
+  .core-card:hover { background: var(--off-white); }
+  .core-card:hover::before { background: var(--blue); }
+
+  .core-card-num {
+    font-family: var(--serif);
+    font-size: 13px;
+    color: var(--blue);
+    margin-bottom: 32px;
+    display: block;
+    font-weight: 400;
+  }
+
+  .core-card-icon {
+    width: 52px;
+    height: 52px;
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+    color: var(--navy);
+    transition: border-color 0.25s, color 0.25s;
+  }
+
+  .core-card:hover .core-card-icon {
+    border-color: var(--blue);
+    color: var(--blue);
+  }
+
+  .core-card h3 {
+    font-size: 21px;
+    font-weight: 500;
+    line-height: 1.3;
+    margin-bottom: 16px;
+    letter-spacing: -0.2px;
+  }
+
+  .core-card p {
+    font-size: 14px;
+    color: var(--text-soft);
+    line-height: 1.75;
+    font-weight: 300;
+  }
+
+  .core-card-specs {
+    margin-top: 28px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border-light);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .spec-tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--gray);
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .spec-tag::before {
+    content: '—';
+    color: var(--border);
+  }
+
+  /* ─── ADDITIONAL SERVICES ─── */
+  #services {
+    background: var(--off-white);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    margin-top: 56px;
+  }
+
+  .service-tile {
+    background: var(--white);
+    padding: 36px 32px;
+    transition: background 0.2s;
+    cursor: default;
+  }
+
+  .service-tile:hover { background: var(--off-white); }
+
+  .service-tile-num {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--gray);
+    margin-bottom: 20px;
+    display: block;
+  }
+
+  .service-tile h4 {
+    font-family: var(--serif);
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--navy);
+    margin-bottom: 12px;
+    line-height: 1.35;
+  }
+
+  .service-tile p {
+    font-size: 13px;
+    color: var(--gray-mid);
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  /* ─── PROCESS ─── */
+  #process {
+    background: var(--white);
+  }
+
+  .process-layout {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 80px;
+    margin-top: 56px;
+    align-items: start;
+  }
+
+  .process-intro p {
+    font-size: 15px;
+    color: var(--text-soft);
+    line-height: 1.75;
+    font-weight: 300;
+    margin-top: 20px;
+  }
+
+  .process-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border: 1px solid var(--border);
+  }
+
+  .process-step {
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    border-bottom: 1px solid var(--border-light);
+    transition: background 0.2s;
+    cursor: default;
+  }
+
+  .process-step:last-child { border-bottom: none; }
+  .process-step:hover { background: var(--off-white); }
+
+  .step-index {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-right: 1px solid var(--border-light);
+    font-family: var(--serif);
+    font-size: 20px;
+    font-weight: 300;
+    color: var(--blue);
+    padding: 24px 0;
+    background: var(--off-white);
+  }
+
+  .step-content {
+    padding: 24px 28px;
+  }
+
+  .step-content h4 {
+    font-family: var(--serif);
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--navy);
+    margin-bottom: 6px;
+  }
+
+  .step-content p {
+    font-size: 13px;
+    color: var(--gray-mid);
+    line-height: 1.65;
+    font-weight: 300;
+  }
+
+  /* ─── REFERENCES ─── */
+  #references {
+    background: var(--navy);
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+
+  #references .section-label span { color: rgba(255,255,255,0.35); }
+  #references .eyebrow-line { background: rgba(255,255,255,0.15); }
+  #references h2 { color: var(--white); }
+
+  .ref-intro {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: end;
+    margin-bottom: 56px;
+    padding-bottom: 48px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .ref-intro p {
+    font-size: 15px;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.75;
+    font-weight: 300;
+  }
+
+  .ref-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: rgba(255,255,255,0.06);
+  }
+
+  .ref-card {
+    background: var(--navy);
+    padding: 32px 28px;
+    transition: background 0.2s;
+    cursor: default;
+  }
+
+  .ref-card:hover { background: var(--navy-mid); }
+
+  .ref-card-name {
+    font-family: var(--serif);
+    font-size: 16px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.85);
+    margin-bottom: 8px;
+  }
+
+  .ref-card-sector {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    color: rgba(255,255,255,0.25);
+    text-transform: uppercase;
+  }
+
+  /* ─── CONTACT ─── */
+  #contact {
+    background: var(--white);
+    border-top: 1px solid var(--border);
+  }
+
+  .contact-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 96px;
+    align-items: start;
+  }
+
+  .contact-left h2 { margin-bottom: 20px; }
+
+  .contact-left > p {
+    font-size: 15px;
+    color: var(--text-soft);
+    line-height: 1.75;
+    font-weight: 300;
+    margin-bottom: 48px;
+  }
+
+  .contact-detail {
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+    margin-bottom: 24px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border-light);
+  }
+
+  .contact-detail:last-child { border-bottom: none; margin-bottom: 0; }
+
+  .contact-icon {
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: var(--navy);
+  }
+
+  .contact-detail-body {}
+
+  .contact-detail-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: var(--gray);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .contact-detail-value {
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.5;
+  }
+
+  /* Form */
+  .contact-form {
+    background: var(--off-white);
+    border: 1px solid var(--border);
+    padding: 40px;
+  }
+
+  .form-title {
+    font-family: var(--serif);
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--navy);
+    margin-bottom: 28px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  label {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: var(--gray);
+    text-transform: uppercase;
+  }
+
+  input, textarea, select {
+    background: var(--white);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 300;
+    padding: 11px 16px;
+    outline: none;
+    transition: border-color 0.2s;
+    appearance: none;
+  }
+
+  input:focus, textarea:focus, select:focus {
+    border-color: var(--navy);
+  }
+
+  input::placeholder, textarea::placeholder { color: var(--border); }
+  textarea { resize: vertical; min-height: 110px; }
+
+  .form-submit {
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--white);
+    background: var(--navy);
+    border: 1.5px solid var(--navy);
+    padding: 14px 32px;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    transition: all 0.2s;
+    margin-top: 8px;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .form-submit:hover { background: var(--blue); border-color: var(--blue); }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--navy);
+    padding: 40px 48px;
+  }
+
+  .footer-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .footer-emblem {
+    width: 32px;
+    height: 32px;
+    border: 1px solid rgba(255,255,255,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .footer-wordmark {
+    font-family: var(--serif);
+    font-size: 15px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.7);
+    letter-spacing: 3px;
+  }
+
+  .footer-copy {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: rgba(255,255,255,0.25);
+    letter-spacing: 0.5px;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 28px;
+    list-style: none;
+  }
+
+  .footer-links a {
+    font-size: 12px;
+    color: rgba(255,255,255,0.3);
+    text-decoration: none;
+    letter-spacing: 0.3px;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: rgba(255,255,255,0.65); }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-eyebrow { animation: fadeIn 0.6s 0.1s ease both; }
+  h1 { animation: fadeIn 0.6s 0.2s ease both; }
+  .hero-lead { animation: fadeIn 0.6s 0.3s ease both; }
+  .hero-actions { animation: fadeIn 0.6s 0.4s ease both; }
+  .hero-sidebar { animation: fadeIn 0.6s 0.5s ease both; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <div class="logo-emblem">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <rect x="2" y="2" width="5" height="5" fill="#0d1824"/>
+          <rect x="9" y="2" width="5" height="5" fill="#1a5fa8"/>
+          <rect x="2" y="9" width="5" height="5" fill="#1a5fa8" opacity="0.4"/>
+          <rect x="9" y="9" width="5" height="5" fill="#0d1824"/>
+        </svg>
+      </div>
+      <div class="logo-wordmark">
+        <span class="logo-main">ODSAN</span>
+        <span class="logo-tagline">Endüstriyel & Savunma Teknolojileri</span>
+      </div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#about">Hakkımızda</a></li>
+      <li><a href="#core-services">Temel Hizmetler</a></li>
+      <li><a href="#process">Süreç</a></li>
+      <li><a href="#references">Referanslar</a></li>
+    </ul>
+    <a href="#contact" class="nav-contact">İletişim</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section>
+  <div id="hero">
+    <div class="hero-content">
+      <div class="hero-eyebrow">
+        <div class="eyebrow-line"></div>
+        <span class="eyebrow-text">Kuruluş 2008 · Ankara, Türkiye</span>
+      </div>
+      <h1>
+        Endüstriyel &<br>
+        Savunma <em>Elektroniği</em><br>
+        Mühendisliği
+      </h1>
+      <p class="hero-lead">
+        ODSAN, kritik sistemler için elektronik tasarım, üretim ve onarım alanlarında kanıtlanmış mühendislik uzmanlığı sunar. Güvenilirlik ve teknik kesinlik, her projemizin temelini oluşturur.
+      </p>
+      <div class="hero-actions">
+        <a href="#core-services" class="btn-primary">Temel Hizmetler</a>
+        <a href="#contact" class="btn-outline">Teklif Talep Edin</a>
+      </div>
+    </div>
+    <div class="hero-sidebar">
+      <div class="hero-stat-group">
+        <div class="hero-stat">
+          <div class="stat-figure">15<sup>+</sup></div>
+          <div class="stat-desc">Yıl endüstriyel ve savunma elektroniği deneyimi</div>
+        </div>
+        <div class="hero-stat">
+          <div class="stat-figure">500<sup>+</sup></div>
+          <div class="stat-desc">Tamamlanan proje ve onarım iş emri</div>
+        </div>
+        <div class="hero-stat">
+          <div class="stat-figure">98<sup>%</sup></div>
+          <div class="stat-desc">Müşteri memnuniyeti ve proje başarı oranı</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-wrap">
+    <div class="about-layout">
+      <div class="about-body">
+        <div class="section-label">
+          <div class="eyebrow-line"></div>
+          <span>Kurumsal Kimlik</span>
+        </div>
+        <div class="about-header">
+          <h2>Güvenilir Mühendislik,<br>Kanıtlanmış Sonuçlar</h2>
+        </div>
+        <p>ODSAN, endüstriyel otomasyon, savunma elektroniği ve kritik sistem altyapılarında kapsamlı mühendislik çözümleri sunan köklü bir teknoloji kuruluşudur. On beş yılı aşkın deneyimle edindiğimiz teknik bilgi birikimini, güncel mühendislik standartlarıyla harmanlayarak müşterilerimize güvenilir çözümler sunuyoruz.</p>
+        <p>TSE, ISO 9001 ve savunma sanayii kalite standartları çerçevesinde faaliyet gösteren şirketimiz; tasarımdan teslimata uzanan tüm süreçlerde titiz kalite kontrol prosedürleri uygulamaktadır.</p>
+        <div class="cert-row">
+          <span class="cert">ISO 9001:2015</span>
+          <span class="cert">TSE Onaylı</span>
+          <span class="cert">SSB Yetkilisi</span>
+          <span class="cert">NATO Uyumlu</span>
+          <span class="cert">IPC Class 3</span>
+          <span class="cert">MIL-STD</span>
+        </div>
+      </div>
+      <div>
+        <div class="capability-list">
+          <div class="cap-header">
+            <span>No.</span>
+            <span>Mühendislik Yetkinliği</span>
+            <span style="text-align:right">Durum</span>
+          </div>
+          <div class="cap-row">
+            <span class="cap-idx">01</span>
+            <span class="cap-name">Elektronik Sistem Tasarımı</span>
+            <span class="cap-status">Aktif</span>
+          </div>
+          <div class="cap-row">
+            <span class="cap-idx">02</span>
+            <span class="cap-name">PCB Tasarım ve Üretim</span>
+            <span class="cap-status">Aktif</span>
+          </div>
+          <div class="cap-row">
+            <span class="cap-idx">03</span>
+            <span class="cap-name">Elektronik Kart Onarımı</span>
+            <span class="cap-status">Aktif</span>
+          </div>
+          <div class="cap-row">
+            <span class="cap-idx">04</span>
+            <span class="cap-name">Gömülü Sistem Geliştirme</span>
+            <span class="cap-status">Aktif</span>
+          </div>
+          <div class="cap-row">
+            <span class="cap-idx">05</span>
+            <span class="cap-name">Savunma Sistem Entegrasyonu</span>
+            <span class="cap-status">Aktif</span>
+          </div>
+          <div class="cap-row">
+            <span class="cap-idx">06</span>
+            <span class="cap-name">EMC/EMI Test & Sertifikasyon</span>
+            <span class="cap-status">Aktif</span>
+          </div>
+          <div class="cap-row">
+            <span class="cap-idx">07</span>
+            <span class="cap-name">Ömür Uzatma ve Modernizasyon</span>
+            <span class="cap-status">Aktif</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CORE SERVICES -->
+<section id="core-services">
+  <div class="section-wrap">
+    <div class="core-header">
+      <div>
+        <div class="section-label">
+          <div class="eyebrow-line"></div>
+          <span>Temel Mühendislik Hizmetleri</span>
+        </div>
+        <h2>Üç Temel<br>Yetkinlik Alanı</h2>
+      </div>
+      <p>Endüstriyel ve savunma projelerinin omurgasını oluşturan bu üç hizmet alanında, ODSAN'ın mühendislik derinliği ve kurumsal deneyimi müşterilerimize rekabetçi bir güvence sunar.</p>
+    </div>
+
+    <div class="core-cards">
+      <!-- Card 1: Board Repair -->
+      <div class="core-card">
+        <span class="core-card-num">I.</span>
+        <div class="core-card-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+            <rect x="2" y="4" width="20" height="16" rx="0"/>
+            <rect x="6" y="8" width="5" height="4" rx="0"/>
+            <rect x="13" y="8" width="5" height="4" rx="0"/>
+            <line x1="6" y1="14" x2="6" y2="16"/>
+            <line x1="9" y1="14" x2="9" y2="16"/>
+            <line x1="13" y1="14" x2="13" y2="16"/>
+            <line x1="16" y1="14" x2="16" y2="16"/>
+          </svg>
+        </div>
+        <h3>Endüstriyel Elektronik<br>Kart Onarımı</h3>
+        <p>PLC, servo sürücü, HMI ve endüstriyel kontrol kartlarının hassas teşhis ve onarımı. BGA yeniden lehimleme, komponent değişimi ve fonksiyonel doğrulama dahil kapsamlı servis.</p>
+        <div class="core-card-specs">
+          <span class="spec-tag">BGA & Fine-Pitch Komponent Değişimi</span>
+          <span class="spec-tag">X-Ray ve AOI Kontrolü</span>
+          <span class="spec-tag">Tersine Mühendislik ve Dokümantasyon</span>
+          <span class="spec-tag">Fonksiyonel Test ve Garanti</span>
+          <span class="spec-tag">IPC-7711/7721 Standartları</span>
+        </div>
+      </div>
+
+      <!-- Card 2: PCB Design -->
+      <div class="core-card">
+        <span class="core-card-num">II.</span>
+        <div class="core-card-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+            <polyline points="4 17 10 11 4 5"/>
+            <line x1="12" y1="19" x2="20" y2="19"/>
+          </svg>
+        </div>
+        <h3>PCB Tasarım<br>ve Geliştirme</h3>
+        <p>Konsept aşamasından seri üretime kadar yüksek güvenilirlikli PCB tasarımı. Çok katmanlı, yüksek hızlı sinyal ve yüksek güç uygulamaları için uzmanlaşmış mühendislik.</p>
+        <div class="core-card-specs">
+          <span class="spec-tag">Çok Katmanlı PCB (2–16 Katman)</span>
+          <span class="spec-tag">Yüksek Frekanslı RF Tasarımı</span>
+          <span class="spec-tag">EMC Uyumlu Yerleşim Tasarımı</span>
+          <span class="spec-tag">DFM/DFT Analizi</span>
+          <span class="spec-tag">MIL-PRF-31032 Uyumu</span>
+        </div>
+      </div>
+
+      <!-- Card 3: Industrial System Engineering -->
+      <div class="core-card">
+        <span class="core-card-num">III.</span>
+        <div class="core-card-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M12 1v3M12 20v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M1 12h3M20 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/>
+          </svg>
+        </div>
+        <h3>Endüstriyel Sistem<br>Mühendisliği Projeleri</h3>
+        <p>Saha uygulamaları için bütünleşik endüstriyel sistem mühendisliği. Otomasyon altyapısı, kontrol panel tasarımı ve endüstriyel iletişim protokollerinin entegrasyonu.</p>
+        <div class="core-card-specs">
+          <span class="spec-tag">PLC/SCADA Sistem Tasarımı</span>
+          <span class="spec-tag">Kontrol Panosu Mühendisliği</span>
+          <span class="spec-tag">Endüstriyel Protokol Entegrasyonu</span>
+          <span class="spec-tag">Devreye Alma ve Saha Desteği</span>
+          <span class="spec-tag">IEC 61508 İşlevsel Güvenlik</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OTHER SERVICES -->
+<section id="services">
+  <div class="section-wrap">
+    <div class="section-label">
+      <div class="eyebrow-line"></div>
+      <span>Ek Mühendislik Hizmetleri</span>
+    </div>
+    <h2>Destekleyici Teknik Yetkinlikler</h2>
+    <div class="services-grid">
+      <div class="service-tile">
+        <span class="service-tile-num">04.</span>
+        <h4>Savunma Sistem Entegrasyonu</h4>
+        <p>Kara, deniz ve hava platformları için elektronik sistem entegrasyonu. STANAG ve MIL-STD standartlarına tam uyum ile gizlilik protokolleri dahilinde proje yürütme.</p>
+      </div>
+      <div class="service-tile">
+        <span class="service-tile-num">05.</span>
+        <h4>Gömülü Sistem Geliştirme</h4>
+        <p>FPGA, DSP ve mikrodenetleyici tabanlı gömülü yazılım geliştirme. Gerçek zamanlı işletim sistemleri ve kritik uygulama yazılımı.</p>
+      </div>
+      <div class="service-tile">
+        <span class="service-tile-num">06.</span>
+        <h4>EMC/EMI Test ve Doğrulama</h4>
+        <p>Elektromanyetik uyumluluk testleri, çevresel dayanım testleri ve uluslararası sertifikasyon desteği. Akredite laboratuvar altyapısı.</p>
+      </div>
+      <div class="service-tile">
+        <span class="service-tile-num">07.</span>
+        <h4>Ömür Uzatma Programları</h4>
+        <p>Eski sistemlerin (DMSMS) modernize edilmesi ve temin edilemeyen komponent yönetimi. Kritik altyapı sürekliliği için uzun vadeli çözümler.</p>
+      </div>
+      <div class="service-tile">
+        <span class="service-tile-num">08.</span>
+        <h4>Teknik Danışmanlık</h4>
+        <p>Mühendislik proje yönetimi, teknik inceleme ve fizibilite değerlendirmesi. Savunma tedarik süreçlerinde teknik destek.</p>
+      </div>
+      <div class="service-tile">
+        <span class="service-tile-num">09.</span>
+        <h4>Satış Sonrası Destek</h4>
+        <p>Teslim edilen sistemler için uzun vadeli teknik destek, yedek parça yönetimi ve periyodik bakım programları.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process">
+  <div class="section-wrap">
+    <div class="section-label">
+      <div class="eyebrow-line"></div>
+      <span>Proje Süreci</span>
+    </div>
+    <div class="process-layout">
+      <div class="process-intro">
+        <h2>Talepten<br>Teslimata</h2>
+        <p>Her projede şeffaf, öngörülebilir ve belgelenmiş bir süreç işletiyoruz. Teknik gereksinimlerinizden teslimata kadar her aşama titizlikle yönetilir.</p>
+      </div>
+      <div class="process-steps">
+        <div class="process-step">
+          <div class="step-index">I</div>
+          <div class="step-content">
+            <h4>Talep ve Teknik Analiz</h4>
+            <p>Teknik gereksinimleriniz kapsamlı biçimde değerlendirilir, fizibilite ve risk analizi yapılır, beklentiler netleştirilir.</p>
+          </div>
+        </div>
+        <div class="process-step">
+          <div class="step-index">II</div>
+          <div class="step-content">
+            <h4>Teklif ve Proje Planlaması</h4>
+            <p>Proje kapsamı, zaman çizelgesi, kaynak planı ve maliyet analizi hazırlanarak onayınıza sunulur.</p>
+          </div>
+        </div>
+        <div class="process-step">
+          <div class="step-index">III</div>
+          <div class="step-content">
+            <h4>Mühendislik ve Üretim</h4>
+            <p>Tasarım, geliştirme veya onarım işlemleri standart prosedürler ve kalite kontrol süreçleri dahilinde yürütülür.</p>
+          </div>
+        </div>
+        <div class="process-step">
+          <div class="step-index">IV</div>
+          <div class="step-content">
+            <h4>Test, Doğrulama ve Kabul</h4>
+            <p>Kapsamlı test prosedürleri uygulanır. Kalite standartlarına uyum ve müşteri kabul kriterleri doğrulanır.</p>
+          </div>
+        </div>
+        <div class="process-step">
+          <div class="step-index">V</div>
+          <div class="step-content">
+            <h4>Teslim ve Uzun Vadeli Destek</h4>
+            <p>Teknik dokümantasyon eşliğinde teslim gerçekleştirilir. Satış sonrası bakım ve teknik destek güvence altına alınır.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REFERENCES -->
+<section id="references">
+  <div class="section-wrap">
+    <div class="ref-intro">
+      <div>
+        <div class="section-label">
+          <div class="eyebrow-line"></div>
+          <span>Referanslarımız</span>
+        </div>
+        <h2>Güvenilir<br>Ortaklıklar</h2>
+      </div>
+      <p style="color:rgba(255,255,255,0.45)">Türkiye'nin önde gelen savunma ve endüstriyel kuruluşlarıyla uzun soluklu iş birlikleri kuruyoruz. Her proje, kalitemizin ve güvenilirliğimizin somut bir yansımasıdır.</p>
+    </div>
+    <div class="ref-grid">
+      <div class="ref-card">
+        <div class="ref-card-name">ASELSAN A.Ş.</div>
+        <div class="ref-card-sector">Savunma Elektroniği</div>
+      </div>
+      <div class="ref-card">
+        <div class="ref-card-name">ROKETSAN</div>
+        <div class="ref-card-sector">Füze ve Mühimmat</div>
+      </div>
+      <div class="ref-card">
+        <div class="ref-card-name">HAVELSAN</div>
+        <div class="ref-card-sector">Savunma Bilişimi</div>
+      </div>
+      <div class="ref-card">
+        <div class="ref-card-name">T.A.I.</div>
+        <div class="ref-card-sector">Havacılık ve Uzay</div>
+      </div>
+      <div class="ref-card">
+        <div class="ref-card-name">TEI</div>
+        <div class="ref-card-sector">Türbin Motor Sistemleri</div>
+      </div>
+      <div class="ref-card">
+        <div class="ref-card-name">STM</div>
+        <div class="ref-card-sector">Savunma Teknolojileri</div>
+      </div>
+      <div class="ref-card">
+        <div class="ref-card-name">Netaş</div>
+        <div class="ref-card-sector">Telekomünikasyon</div>
+      </div>
+      <div class="ref-card">
+        <div class="ref-card-name">MSB</div>
+        <div class="ref-card-sector">Milli Savunma Bakanlığı</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-wrap">
+    <div class="contact-layout">
+      <div class="contact-left">
+        <div class="section-label">
+          <div class="eyebrow-line"></div>
+          <span>İletişim</span>
+        </div>
+        <h2>Projenizi<br>Değerlendirelim</h2>
+        <p>Teknik gereksinimlerinizi paylaşın; mühendislik ekibimiz en kısa sürede sizinle iletişime geçsin.</p>
+        <div class="contact-detail">
+          <div class="contact-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 014.3 11.8a19.79 19.79 0 01-3.07-8.67A2 2 0 013.22 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L7.91 8.09a16 16 0 006 6l.56-.56a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+          </div>
+          <div class="contact-detail-body">
+            <div class="contact-detail-label">Telefon</div>
+            <div class="contact-detail-value">+90 (312) 000 00 00</div>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </div>
+          <div class="contact-detail-body">
+            <div class="contact-detail-label">E-posta</div>
+            <div class="contact-detail-value">info@odsan.com.tr</div>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <div class="contact-detail-body">
+            <div class="contact-detail-label">Adres</div>
+            <div class="contact-detail-value">Savunma Sanayii OSB<br>Ankara / Türkiye</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-form">
+        <div class="form-title">Proje Talebi</div>
+        <form>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Ad Soyad</label>
+              <input type="text" placeholder="Adınız Soyadınız">
+            </div>
+            <div class="form-group">
+              <label>Şirket / Kurum</label>
+              <input type="text" placeholder="Kuruluş Adı">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>E-posta Adresi</label>
+              <input type="email" placeholder="email@kurum.com.tr">
+            </div>
+            <div class="form-group">
+              <label>Telefon</label>
+              <input type="tel" placeholder="+90">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Hizmet Kategorisi</label>
+            <select>
+              <option value="" disabled selected>Seçiniz...</option>
+              <option>Endüstriyel Elektronik Kart Onarımı</option>
+              <option>PCB Tasarım ve Geliştirme</option>
+              <option>Endüstriyel Sistem Mühendisliği</option>
+              <option>Savunma Sistem Entegrasyonu</option>
+              <option>Gömülü Sistem Geliştirme</option>
+              <option>EMC/EMI Test ve Sertifikasyon</option>
+              <option>Ömür Uzatma ve Modernizasyon</option>
+              <option>Teknik Danışmanlık</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Proje Açıklaması</label>
+            <textarea placeholder="Teknik gereksinimlerinizi ve beklentilerinizi kısaca aktarın..."></textarea>
+          </div>
+          <button type="submit" class="form-submit">
+            <span>Talebi Gönder</span>
+            <span>→</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="footer-emblem">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <rect x="1" y="1" width="5" height="5" fill="rgba(255,255,255,0.5)"/>
+          <rect x="8" y="1" width="5" height="5" fill="rgba(26,95,168,0.6)"/>
+          <rect x="1" y="8" width="5" height="5" fill="rgba(26,95,168,0.3)"/>
+          <rect x="8" y="8" width="5" height="5" fill="rgba(255,255,255,0.5)"/>
+        </svg>
+      </div>
+      <span class="footer-wordmark">ODSAN</span>
+    </div>
+    <span class="footer-copy">© 2024 ODSAN Teknoloji San. Tic. A.Ş. — Tüm hakları saklıdır.</span>
+    <ul class="footer-links">
+      <li><a href="#">Gizlilik Politikası</a></li>
+      <li><a href="#">Kalite Belgeleri</a></li>
+      <li><a href="#">Kariyer</a></li>
+    </ul>
+  </div>
+</footer>
+
+</body>
+</html>
