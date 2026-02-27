@@ -1,0 +1,1604 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ODSAN Admin Panel</title>
+<meta name="robots" content="noindex, nofollow">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0d1824;
+  --navy-mid: #152237;
+  --blue: #1a5fa8;
+  --blue-light: #e8f0fa;
+  --white: #ffffff;
+  --off: #f7f8f9;
+  --border: #d8dce3;
+  --border-light: #e8eaee;
+  --text: #1a2030;
+  --text-soft: #3d4a5c;
+  --gray: #8892a0;
+  --gray-mid: #5a6373;
+  --green: #1e7a4a;
+  --green-light: #e6f4ed;
+  --red: #c0392b;
+  --red-light: #fdecea;
+  --orange: #d97706;
+  --orange-light: #fef3e2;
+  --sans: 'IBM Plex Sans', system-ui, sans-serif;
+  --mono: 'IBM Plex Mono', monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{height:100%}
+body{font-family:var(--sans);background:var(--off);color:var(--text);font-size:14px;line-height:1.5;height:100%;overflow-x:hidden}
+
+/* ── LOGIN ── */
+#loginScreen {
+  position:fixed;inset:0;background:var(--navy);
+  display:flex;align-items:center;justify-content:center;
+  z-index:9999;
+}
+.login-box {
+  background:var(--navy-mid);
+  border:1px solid rgba(255,255,255,0.08);
+  padding:48px 40px;
+  width:100%;max-width:380px;
+}
+.login-logo {
+  display:flex;align-items:center;gap:12px;margin-bottom:36px;
+}
+.login-logo-mark {
+  width:36px;height:36px;border:1.5px solid rgba(255,255,255,0.3);
+  display:flex;align-items:center;justify-content:center;position:relative;
+}
+.login-logo-mark::before{content:'';position:absolute;inset:4px;border:1px solid var(--blue);}
+.login-logo-mark svg{position:relative;z-index:1;}
+.login-logo-text{font-size:18px;font-weight:600;letter-spacing:3px;color:#fff;}
+.login-logo-sub{font-family:var(--mono);font-size:9px;letter-spacing:2px;color:rgba(255,255,255,0.3);text-transform:uppercase;display:block;}
+.login-title{font-size:15px;font-weight:500;color:#fff;margin-bottom:6px;}
+.login-sub{font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:28px;}
+.login-field{display:flex;flex-direction:column;gap:6px;margin-bottom:16px;}
+.login-field label{font-family:var(--mono);font-size:9px;letter-spacing:2px;color:rgba(255,255,255,0.4);text-transform:uppercase;}
+.login-field input{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:#fff;font-family:var(--sans);font-size:14px;padding:11px 14px;outline:none;transition:border-color 0.2s;width:100%;}
+.login-field input:focus{border-color:var(--blue);}
+.login-btn{width:100%;background:var(--blue);border:none;color:#fff;font-family:var(--sans);font-size:13px;font-weight:500;padding:13px;cursor:pointer;letter-spacing:0.5px;transition:background 0.2s;margin-top:8px;}
+.login-btn:hover{background:#2170c0;}
+.login-error{background:rgba(192,57,43,0.15);border:1px solid rgba(192,57,43,0.3);color:#ff8a7a;font-size:12px;padding:10px 14px;margin-top:12px;display:none;}
+.login-error.show{display:block;}
+.login-hint{font-family:var(--mono);font-size:10px;color:rgba(255,255,255,0.15);text-align:center;margin-top:20px;}
+
+/* ── APP SHELL ── */
+#app{display:none;height:100vh;flex-direction:column;}
+#app.visible{display:flex;}
+
+/* ── TOP BAR ── */
+.topbar{
+  background:var(--navy);
+  border-bottom:1px solid rgba(255,255,255,0.06);
+  height:56px;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 24px;
+  flex-shrink:0;
+}
+.topbar-left{display:flex;align-items:center;gap:14px;}
+.topbar-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.topbar-logo-mark{width:28px;height:28px;border:1px solid rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;}
+.topbar-logo-text{font-size:14px;font-weight:600;letter-spacing:3px;color:rgba(255,255,255,0.8);}
+.topbar-divider{width:1px;height:20px;background:rgba(255,255,255,0.1);}
+.topbar-title{font-size:12px;color:rgba(255,255,255,0.4);font-family:var(--mono);letter-spacing:1px;}
+.topbar-right{display:flex;align-items:center;gap:12px;}
+.topbar-site-link{font-size:11px;color:rgba(255,255,255,0.4);text-decoration:none;border:1px solid rgba(255,255,255,0.1);padding:5px 12px;transition:all 0.2s;font-family:var(--mono);}
+.topbar-site-link:hover{color:#fff;border-color:rgba(255,255,255,0.3);}
+.topbar-logout{font-size:11px;color:rgba(255,255,255,0.3);background:none;border:none;cursor:pointer;font-family:var(--mono);padding:5px 10px;transition:color 0.2s;}
+.topbar-logout:hover{color:rgba(255,255,255,0.7);}
+
+/* ── MAIN LAYOUT ── */
+.main-layout{display:flex;flex:1;overflow:hidden;}
+
+/* ── SIDEBAR ── */
+.sidebar{
+  width:220px;flex-shrink:0;
+  background:var(--white);
+  border-right:1px solid var(--border);
+  overflow-y:auto;
+  padding:16px 0;
+}
+.sidebar-section{padding:0 12px;margin-bottom:4px;}
+.sidebar-label{font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--gray);text-transform:uppercase;padding:8px 8px 4px;}
+.sidebar-item{
+  display:flex;align-items:center;gap:10px;
+  padding:9px 10px;border-radius:0;
+  font-size:13px;color:var(--gray-mid);
+  cursor:pointer;transition:all 0.15s;
+  border:none;background:none;width:100%;text-align:left;
+  border-left:2px solid transparent;
+}
+.sidebar-item svg{flex-shrink:0;color:var(--gray);}
+.sidebar-item:hover{background:var(--off);color:var(--text);}
+.sidebar-item.active{background:var(--blue-light);color:var(--blue);border-left-color:var(--blue);font-weight:500;}
+.sidebar-item.active svg{color:var(--blue);}
+
+/* ── CONTENT AREA ── */
+.content{flex:1;overflow-y:auto;padding:28px 32px;}
+
+/* ── PANELS ── */
+.panel{display:none;}
+.panel.active{display:block;}
+
+/* ── PAGE HEADER ── */
+.page-header{margin-bottom:28px;padding-bottom:20px;border-bottom:1px solid var(--border);}
+.page-header h1{font-size:20px;font-weight:600;color:var(--navy);margin-bottom:4px;}
+.page-header p{font-size:13px;color:var(--gray-mid);}
+
+/* ── DASHBOARD ── */
+.dash-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px;}
+.dash-card{background:var(--white);border:1px solid var(--border);padding:20px 24px;}
+.dash-card-num{font-size:28px;font-weight:600;color:var(--navy);line-height:1;margin-bottom:4px;}
+.dash-card-label{font-size:12px;color:var(--gray-mid);}
+.dash-card-icon{float:right;color:var(--blue);opacity:0.4;}
+
+.dash-info{background:var(--blue-light);border:1px solid rgba(26,95,168,0.15);padding:16px 20px;display:flex;align-items:flex-start;gap:12px;margin-bottom:20px;}
+.dash-info svg{flex-shrink:0;color:var(--blue);margin-top:1px;}
+.dash-info p{font-size:13px;color:var(--text-soft);line-height:1.6;}
+.dash-info strong{color:var(--navy);}
+
+.quick-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+.quick-btn{background:var(--white);border:1px solid var(--border);padding:16px 20px;cursor:pointer;transition:all 0.15s;text-align:left;display:flex;align-items:center;gap:12px;}
+.quick-btn:hover{border-color:var(--blue);background:var(--blue-light);}
+.quick-btn span{font-size:13px;font-weight:500;color:var(--navy);}
+.quick-btn svg{color:var(--gray-mid);}
+.quick-btn:hover svg{color:var(--blue);}
+
+/* ── FORMS ── */
+.form-section{background:var(--white);border:1px solid var(--border);padding:24px;margin-bottom:20px;}
+.form-section-title{font-size:13px;font-weight:600;color:var(--navy);margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid var(--border-light);display:flex;align-items:center;gap:8px;}
+.form-section-title svg{color:var(--blue);}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.form-grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+.form-full{grid-column:1/-1;}
+.form-group{display:flex;flex-direction:column;gap:5px;}
+.form-group label{font-family:var(--mono);font-size:9px;letter-spacing:1.5px;color:var(--gray);text-transform:uppercase;}
+.form-group input,.form-group textarea,.form-group select{
+  background:var(--off);border:1px solid var(--border);
+  color:var(--text);font-family:var(--sans);font-size:13px;
+  padding:9px 12px;outline:none;transition:border-color 0.2s;
+  appearance:none;-webkit-appearance:none;width:100%;
+}
+.form-group input:focus,.form-group textarea:focus,.form-group select:focus{border-color:var(--navy);background:var(--white);}
+.form-group textarea{resize:vertical;min-height:80px;}
+.form-hint{font-size:11px;color:var(--gray);margin-top:3px;}
+
+/* ── BUTTONS ── */
+.btn{display:inline-flex;align-items:center;gap:6px;font-family:var(--sans);font-size:12px;font-weight:500;cursor:pointer;border:none;padding:9px 18px;letter-spacing:0.3px;transition:all 0.2s;}
+.btn-primary{background:var(--navy);color:var(--white);}
+.btn-primary:hover{background:var(--blue);}
+.btn-blue{background:var(--blue);color:var(--white);}
+.btn-blue:hover{background:#1550a0;}
+.btn-outline{background:transparent;color:var(--navy);border:1px solid var(--border);}
+.btn-outline:hover{border-color:var(--navy);}
+.btn-danger{background:var(--red-light);color:var(--red);border:1px solid rgba(192,57,43,0.2);}
+.btn-danger:hover{background:var(--red);color:#fff;}
+.btn-green{background:var(--green-light);color:var(--green);border:1px solid rgba(30,122,74,0.2);}
+.btn-green:hover{background:var(--green);color:#fff;}
+.btn-sm{padding:6px 12px;font-size:11px;}
+.btn-row{display:flex;gap:10px;align-items:center;margin-top:20px;padding-top:16px;border-top:1px solid var(--border-light);}
+
+/* ── CARDS LIST ── */
+.cards-list{display:flex;flex-direction:column;gap:1px;background:var(--border);}
+.card-item{background:var(--white);padding:14px 18px;display:flex;align-items:center;gap:12px;transition:background 0.15s;}
+.card-item:hover{background:var(--off);}
+.card-item-drag{cursor:grab;color:var(--gray);flex-shrink:0;}
+.card-item-body{flex:1;min-width:0;}
+.card-item-title{font-size:13px;font-weight:500;color:var(--navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.card-item-sub{font-size:11px;color:var(--gray);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.card-item-actions{display:flex;gap:6px;flex-shrink:0;}
+.badge{font-family:var(--mono);font-size:9px;letter-spacing:1px;padding:3px 8px;text-transform:uppercase;}
+.badge-green{background:var(--green-light);color:var(--green);}
+.badge-blue{background:var(--blue-light);color:var(--blue);}
+.badge-orange{background:var(--orange-light);color:var(--orange);}
+
+/* ── MODAL ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(13,24,36,0.6);z-index:1000;display:none;align-items:center;justify-content:center;padding:20px;}
+.modal-overlay.open{display:flex;}
+.modal{background:var(--white);border:1px solid var(--border);width:100%;max-width:640px;max-height:90vh;overflow-y:auto;position:relative;}
+.modal-header{padding:20px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--white);z-index:1;}
+.modal-title{font-size:15px;font-weight:600;color:var(--navy);}
+.modal-close{background:none;border:none;cursor:pointer;color:var(--gray);padding:4px;transition:color 0.2s;}
+.modal-close:hover{color:var(--navy);}
+.modal-body{padding:24px;}
+.modal-footer{padding:16px 24px;border-top:1px solid var(--border);display:flex;gap:10px;justify-content:flex-end;position:sticky;bottom:0;background:var(--white);}
+
+/* ── IMAGE UPLOAD ── */
+.image-upload-area{border:2px dashed var(--border);padding:32px;text-align:center;cursor:pointer;transition:all 0.2s;background:var(--off);}
+.image-upload-area:hover,.image-upload-area.drag-over{border-color:var(--blue);background:var(--blue-light);}
+.image-upload-area input[type=file]{display:none;}
+.image-upload-icon{color:var(--gray);margin-bottom:10px;}
+.image-upload-text{font-size:13px;color:var(--gray-mid);}
+.image-upload-text strong{color:var(--blue);cursor:pointer;}
+.image-upload-hint{font-size:11px;color:var(--gray);margin-top:4px;}
+.image-preview-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px;}
+.image-preview-item{position:relative;aspect-ratio:16/10;background:var(--border);overflow:hidden;}
+.image-preview-item img{width:100%;height:100%;object-fit:cover;}
+.image-preview-remove{position:absolute;top:4px;right:4px;background:rgba(0,0,0,0.6);color:#fff;border:none;cursor:pointer;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:12px;}
+
+/* ── CODE OUTPUT ── */
+.code-output-area{position:relative;}
+.code-output{background:var(--navy);color:#a8d4ff;font-family:var(--mono);font-size:11px;line-height:1.7;padding:20px;overflow-x:auto;white-space:pre;max-height:360px;overflow-y:auto;}
+.code-copy-btn{position:absolute;top:10px;right:10px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);color:#fff;font-family:var(--mono);font-size:10px;padding:5px 12px;cursor:pointer;transition:all 0.2s;}
+.code-copy-btn:hover{background:rgba(255,255,255,0.2);}
+.code-copy-btn.copied{background:var(--green);border-color:var(--green);}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:24px;right:24px;background:var(--navy);color:#fff;font-size:12px;padding:12px 18px;border-left:3px solid var(--blue);display:none;z-index:9999;font-family:var(--mono);letter-spacing:0.5px;}
+.toast.show{display:block;}
+.toast.success{border-left-color:var(--green);}
+.toast.error{border-left-color:var(--red);}
+
+/* ── BLOG LIST ── */
+.blog-item{background:var(--white);border:1px solid var(--border);padding:18px 20px;margin-bottom:10px;display:flex;align-items:flex-start;gap:16px;}
+.blog-item-thumb{width:80px;height:54px;background:var(--border);flex-shrink:0;overflow:hidden;}
+.blog-item-thumb img{width:100%;height:100%;object-fit:cover;}
+.blog-item-body{flex:1;min-width:0;}
+.blog-item-title{font-size:14px;font-weight:500;color:var(--navy);margin-bottom:4px;}
+.blog-item-meta{font-size:11px;color:var(--gray);font-family:var(--mono);}
+.blog-item-actions{display:flex;gap:6px;flex-shrink:0;align-items:flex-start;}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  .sidebar{width:180px;}
+  .dash-grid{grid-template-columns:1fr 1fr;}
+  .quick-actions{grid-template-columns:1fr 1fr;}
+}
+@media(max-width:640px){
+  .sidebar{display:none;}
+  .content{padding:20px 16px;}
+  .dash-grid{grid-template-columns:1fr 1fr;}
+  .form-grid,.form-grid-3{grid-template-columns:1fr;}
+  .quick-actions{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- ── LOGIN ── -->
+<div id="loginScreen">
+  <div class="login-box">
+    <div class="login-logo">
+      <div class="login-logo-mark">
+        <svg width="12" height="12" viewBox="0 0 14 14" fill="none">
+          <rect x="1" y="1" width="5" height="5" fill="rgba(255,255,255,0.5)"/>
+          <rect x="8" y="1" width="5" height="5" fill="#1a5fa8"/>
+          <rect x="1" y="8" width="5" height="5" fill="#1a5fa8" opacity="0.4"/>
+          <rect x="8" y="8" width="5" height="5" fill="rgba(255,255,255,0.5)"/>
+        </svg>
+      </div>
+      <div>
+        <span class="login-logo-text">ODSAN</span>
+        <span class="login-logo-sub">Admin Panel</span>
+      </div>
+    </div>
+    <div class="login-title">Giriş Yapın</div>
+    <div class="login-sub">Devam etmek için yönetici şifresini girin.</div>
+    <div class="login-field">
+      <label>Şifre</label>
+      <input type="password" id="loginPassword" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()">
+    </div>
+    <button class="login-btn" onclick="doLogin()">Giriş Yap →</button>
+    <div class="login-error" id="loginError">Hatalı şifre. Tekrar deneyin.</div>
+    <div class="login-hint">Varsayılan şifre: odsan2024</div>
+  </div>
+</div>
+
+<!-- ── APP ── -->
+<div id="app">
+  <!-- Topbar -->
+  <div class="topbar">
+    <div class="topbar-left">
+      <a href="index.html" class="topbar-logo" target="_blank">
+        <div class="topbar-logo-mark">
+          <svg width="10" height="10" viewBox="0 0 14 14" fill="none">
+            <rect x="1" y="1" width="5" height="5" fill="rgba(255,255,255,0.5)"/>
+            <rect x="8" y="1" width="5" height="5" fill="#1a5fa8"/>
+            <rect x="1" y="8" width="5" height="5" fill="#1a5fa8" opacity="0.3"/>
+            <rect x="8" y="8" width="5" height="5" fill="rgba(255,255,255,0.5)"/>
+          </svg>
+        </div>
+        <span class="topbar-logo-text">ODSAN</span>
+      </a>
+      <div class="topbar-divider"></div>
+      <span class="topbar-title">YÖNETİM PANELİ</span>
+    </div>
+    <div class="topbar-right">
+      <a href="index.html" class="topbar-site-link" target="_blank">↗ Siteyi Görüntüle</a>
+      <button class="topbar-logout" onclick="doLogout()">Çıkış</button>
+    </div>
+  </div>
+
+  <!-- Main -->
+  <div class="main-layout">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-section">
+        <div class="sidebar-label">Genel</div>
+        <button class="sidebar-item active" onclick="showPanel('dashboard')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+          Gösterge Paneli
+        </button>
+        <button class="sidebar-item" onclick="showPanel('contact')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          İletişim Bilgileri
+        </button>
+        <button class="sidebar-item" onclick="showPanel('hero')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="0"/><line x1="3" y1="9" x2="21" y2="9"/></svg>
+          Hero Metinleri
+        </button>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-label">İçerik</div>
+        <button class="sidebar-item" onclick="showPanel('services')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          Hizmet Kartları
+        </button>
+        <button class="sidebar-item" onclick="showPanel('sectors')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M12 1v3M12 20v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M1 12h3M20 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/></svg>
+          Sektör Kartları
+        </button>
+        <button class="sidebar-item" onclick="showPanel('blog')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          Blog / Yapılan İşler
+        </button>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-label">Araçlar</div>
+        <button class="sidebar-item" onclick="showPanel('export')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          HTML Dışa Aktar
+        </button>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="content">
+
+      <!-- ── DASHBOARD ── -->
+      <div class="panel active" id="panel-dashboard">
+        <div class="page-header">
+          <h1>Gösterge Paneli</h1>
+          <p>ODSAN Elektronik — Site Yönetim Paneli</p>
+        </div>
+
+        <div class="dash-grid">
+          <div class="dash-card">
+            <svg class="dash-card-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            <div class="dash-card-num" id="dash-service-count">3</div>
+            <div class="dash-card-label">Temel Hizmet</div>
+          </div>
+          <div class="dash-card">
+            <svg class="dash-card-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M12 1v3M12 20v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M1 12h3M20 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/></svg>
+            <div class="dash-card-num" id="dash-sector-count">8</div>
+            <div class="dash-card-label">Sektör</div>
+          </div>
+          <div class="dash-card">
+            <svg class="dash-card-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            <div class="dash-card-num" id="dash-blog-count">0</div>
+            <div class="dash-card-label">Blog Yazısı</div>
+          </div>
+          <div class="dash-card">
+            <svg class="dash-card-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/></svg>
+            <div class="dash-card-num">✓</div>
+            <div class="dash-card-label">İletişim Aktif</div>
+          </div>
+        </div>
+
+        <div class="dash-info">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+          <p>Bu panel <strong>tamamen tarayıcıda</strong> çalışır. Değişikliklerinizi yaptıktan sonra <strong>"HTML Dışa Aktar"</strong> sekmesine gidin ve üretilen kodu kopyalayıp <strong>GitHub'daki <code>index.html</code> dosyanızı</strong> bu kodla güncelleyin. Kaydetmeden sayfayı kapatırsanız değişiklikler kaybolur.</p>
+        </div>
+
+        <div class="form-section-title" style="font-size:13px;font-weight:600;color:var(--navy);margin-bottom:14px;display:flex;align-items:center;gap:8px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          Hızlı İşlemler
+        </div>
+        <div class="quick-actions">
+          <button class="quick-btn" onclick="showPanel('blog');openBlogModal()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            <span>Yeni Blog / İş Ekle</span>
+          </button>
+          <button class="quick-btn" onclick="showPanel('contact')">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            <span>İletişim Güncelle</span>
+          </button>
+          <button class="quick-btn" onclick="showPanel('export')">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            <span>HTML Dışa Aktar</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- ── CONTACT ── -->
+      <div class="panel" id="panel-contact">
+        <div class="page-header">
+          <h1>İletişim Bilgileri</h1>
+          <p>Sitede görünen telefon, e-posta ve adres bilgilerini güncelleyin.</p>
+        </div>
+        <div class="form-section">
+          <div class="form-section-title">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 014.3 11.8a19.79 19.79 0 01-3.07-8.67A2 2 0 013.22 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L7.91 8.09a16 16 0 006 6l.56-.56a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+            İletişim Detayları
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Telefon Numarası</label>
+              <input type="text" id="ct-phone" value="+90 (312) 000 00 00">
+            </div>
+            <div class="form-group">
+              <label>Telefon (href değeri)</label>
+              <input type="text" id="ct-phone-href" value="+903120000000">
+              <span class="form-hint">Örn: +903121234567 (boşluksuz)</span>
+            </div>
+            <div class="form-group">
+              <label>E-posta Adresi</label>
+              <input type="email" id="ct-email" value="info@odsan.com.tr">
+            </div>
+            <div class="form-group">
+              <label>Şehir / Ülke</label>
+              <input type="text" id="ct-city" value="Ankara / Türkiye">
+            </div>
+            <div class="form-group form-full">
+              <label>Adres</label>
+              <input type="text" id="ct-address" value="Savunma Sanayii OSB">
+            </div>
+          </div>
+          <div class="btn-row">
+            <button class="btn btn-primary" onclick="saveContact()">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+              Kaydet
+            </button>
+          </div>
+        </div>
+        <div class="form-section">
+          <div class="form-section-title">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Footer Bilgileri
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Footer Telif Hakkı Metni</label>
+              <input type="text" id="ct-footer-copy" value="© 2024 ODSAN Elektronik San. Tic. A.Ş. — Tüm hakları saklıdır.">
+            </div>
+            <div class="form-group">
+              <label>Kuruluş Bilgisi (Hero)</label>
+              <input type="text" id="ct-founded" value="Kuruluş 2008 · Ankara, Türkiye">
+            </div>
+          </div>
+          <div class="btn-row">
+            <button class="btn btn-primary" onclick="saveContact()">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+              Kaydet
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── HERO ── -->
+      <div class="panel" id="panel-hero">
+        <div class="page-header">
+          <h1>Hero Bölümü</h1>
+          <p>Sayfanın üst kısmındaki ana başlık, açıklama ve istatistikleri düzenleyin.</p>
+        </div>
+        <div class="form-section">
+          <div class="form-section-title">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h7"/></svg>
+            Ana Başlık ve Açıklama
+          </div>
+          <div class="form-grid">
+            <div class="form-group form-full">
+              <label>Ana Başlık Satır 1</label>
+              <input type="text" id="hero-line1" value="Elektronik Kart">
+            </div>
+            <div class="form-group form-full">
+              <label>Ana Başlık Satır 2 (mavi vurgulu kısım)</label>
+              <input type="text" id="hero-line2-accent" value="Mühendislik">
+              <span class="form-hint">Bu kelime/kelimeler mavi renkte gösterilir.</span>
+            </div>
+            <div class="form-group form-full">
+              <label>Ana Başlık Satır 2 (normal kısım)</label>
+              <input type="text" id="hero-line2-normal" value="Onarım &">
+            </div>
+            <div class="form-group form-full">
+              <label>Ana Başlık Satır 3</label>
+              <input type="text" id="hero-line3" value="Hizmetleri">
+            </div>
+            <div class="form-group form-full">
+              <label>Alt Açıklama Metni</label>
+              <textarea id="hero-lead" style="min-height:70px">ODSAN Elektronik; iş makinesi, medikal, endüstriyel ve savunma elektroniği alanlarında kart onarımı, PCB tasarımı ve sistem mühendisliği hizmetleri sunar.</textarea>
+            </div>
+          </div>
+          <div class="btn-row">
+            <button class="btn btn-primary" onclick="saveHero()">Kaydet</button>
+          </div>
+        </div>
+        <div class="form-section">
+          <div class="form-section-title">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+            İstatistikler
+          </div>
+          <div class="form-grid-3">
+            <div class="form-group">
+              <label>İstatistik 1 — Sayı</label>
+              <input type="number" id="stat1-num" value="15">
+            </div>
+            <div class="form-group">
+              <label>Sembol (+ veya %)</label>
+              <input type="text" id="stat1-sym" value="+" maxlength="2">
+            </div>
+            <div class="form-group">
+              <label>Açıklama</label>
+              <input type="text" id="stat1-desc" value="Yıl elektronik kart onarım deneyimi">
+            </div>
+            <div class="form-group">
+              <label>İstatistik 2 — Sayı</label>
+              <input type="number" id="stat2-num" value="500">
+            </div>
+            <div class="form-group">
+              <label>Sembol</label>
+              <input type="text" id="stat2-sym" value="+" maxlength="2">
+            </div>
+            <div class="form-group">
+              <label>Açıklama</label>
+              <input type="text" id="stat2-desc" value="Tamamlanan proje ve onarım iş emri">
+            </div>
+            <div class="form-group">
+              <label>İstatistik 3 — Sayı</label>
+              <input type="number" id="stat3-num" value="98">
+            </div>
+            <div class="form-group">
+              <label>Sembol</label>
+              <input type="text" id="stat3-sym" value="%" maxlength="2">
+            </div>
+            <div class="form-group">
+              <label>Açıklama</label>
+              <input type="text" id="stat3-desc" value="Müşteri memnuniyeti ve başarı oranı">
+            </div>
+          </div>
+          <div class="btn-row">
+            <button class="btn btn-primary" onclick="saveHero()">Kaydet</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── SERVICES ── -->
+      <div class="panel" id="panel-services">
+        <div class="page-header">
+          <h1>Hizmet Kartları</h1>
+          <p>Temel mühendislik hizmetlerinizi yönetin. Ekle, düzenle veya sil.</p>
+        </div>
+        <div style="margin-bottom:16px;display:flex;justify-content:flex-end;">
+          <button class="btn btn-blue" onclick="openServiceModal()">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Yeni Hizmet Ekle
+          </button>
+        </div>
+        <div class="cards-list" id="servicesList"></div>
+      </div>
+
+      <!-- ── SECTORS ── -->
+      <div class="panel" id="panel-sectors">
+        <div class="page-header">
+          <h1>Sektör Kartları</h1>
+          <p>Hizmet verdiğiniz sektörleri yönetin.</p>
+        </div>
+        <div style="margin-bottom:16px;display:flex;justify-content:flex-end;">
+          <button class="btn btn-blue" onclick="openSectorModal()">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Yeni Sektör Ekle
+          </button>
+        </div>
+        <div class="cards-list" id="sectorsList"></div>
+      </div>
+
+      <!-- ── BLOG ── -->
+      <div class="panel" id="panel-blog">
+        <div class="page-header">
+          <h1>Blog / Yapılan İşler</h1>
+          <p>Tamamlanan projeler, vaka çalışmaları ve teknik içerik yayınlayın.</p>
+        </div>
+        <div style="margin-bottom:16px;display:flex;justify-content:flex-end;">
+          <button class="btn btn-blue" onclick="openBlogModal()">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Yeni Yazı / İş Ekle
+          </button>
+        </div>
+        <div id="blogList"></div>
+        <div id="blogEmpty" style="padding:48px;text-align:center;color:var(--gray);font-size:13px;border:1px dashed var(--border);background:var(--off);">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" style="margin:0 auto 12px;color:var(--border)"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          <p>Henüz içerik eklenmedi.<br>Yukarıdaki butona tıklayarak ilk yazınızı ekleyin.</p>
+        </div>
+      </div>
+
+      <!-- ── EXPORT ── -->
+      <div class="panel" id="panel-export">
+        <div class="page-header">
+          <h1>HTML Dışa Aktar</h1>
+          <p>Tüm değişiklikleriniz bu HTML koduna yansır. Kopyalayıp GitHub'a yapıştırın.</p>
+        </div>
+        <div class="form-section">
+          <div class="form-section-title">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            GitHub'a Nasıl Kaydedilir?
+          </div>
+          <ol style="font-size:13px;color:var(--text-soft);line-height:2;padding-left:20px;margin-bottom:20px;">
+            <li>Aşağıdaki <strong>"Kodu Oluştur"</strong> butonuna tıklayın</li>
+            <li>Çıkan kodu <strong>"Kopyala"</strong> butonuyla kopyalayın</li>
+            <li>GitHub'da <strong>index.html</strong> dosyasını açın</li>
+            <li>Sağ üstteki <strong>kalem (Edit) ikonuna</strong> tıklayın</li>
+            <li>Tüm içeriği seçin (<strong>Ctrl+A</strong>) ve yapıştırın (<strong>Ctrl+V</strong>)</li>
+            <li>Sayfanın altında <strong>"Commit changes"</strong> butonuna tıklayın</li>
+            <li>✅ Siteniz otomatik güncellenir!</li>
+          </ol>
+          <button class="btn btn-primary" onclick="generateExport()" style="margin-bottom:16px;">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Kodu Oluştur
+          </button>
+          <div class="code-output-area" id="exportArea" style="display:none">
+            <div class="code-output" id="exportCode"></div>
+            <button class="code-copy-btn" id="exportCopyBtn" onclick="copyExport()">Kopyala</button>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /content -->
+  </div><!-- /main-layout -->
+</div><!-- /app -->
+
+<!-- ── MODALS ── -->
+
+<!-- Service Modal -->
+<div class="modal-overlay" id="serviceModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="serviceModalTitle">Hizmet Ekle</div>
+      <button class="modal-close" onclick="closeModal('serviceModal')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="svc-index" value="-1">
+      <div class="form-group" style="margin-bottom:14px">
+        <label>Hizmet Başlığı</label>
+        <input type="text" id="svc-title" placeholder="Örn: Elektronik Kart Onarımı">
+      </div>
+      <div class="form-group" style="margin-bottom:14px">
+        <label>Açıklama</label>
+        <textarea id="svc-desc" placeholder="Hizmet açıklaması..."></textarea>
+      </div>
+      <div class="form-group" style="margin-bottom:14px">
+        <label>Teknik Özellikler (her satıra bir madde)</label>
+        <textarea id="svc-specs" placeholder="BGA & Fine-Pitch Komponent Değişimi&#10;X-Ray ve AOI Kontrolü&#10;Fonksiyonel Test ve Garanti" style="min-height:100px"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('serviceModal')">İptal</button>
+      <button class="btn btn-primary" onclick="saveService()">Kaydet</button>
+    </div>
+  </div>
+</div>
+
+<!-- Sector Modal -->
+<div class="modal-overlay" id="sectorModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="sectorModalTitle">Sektör Ekle</div>
+      <button class="modal-close" onclick="closeModal('sectorModal')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="sec-index" value="-1">
+      <div class="form-grid" style="gap:14px">
+        <div class="form-group form-full">
+          <label>Sektör Adı</label>
+          <input type="text" id="sec-name" placeholder="Örn: İş Makinesi Elektroniği">
+        </div>
+        <div class="form-group form-full">
+          <label>Açıklama</label>
+          <textarea id="sec-desc" placeholder="Sektör açıklaması..."></textarea>
+        </div>
+        <div class="form-group form-full">
+          <label>Etiketler (virgülle ayırın)</label>
+          <input type="text" id="sec-tags" placeholder="ECU Onarımı, Hidrolik Kontrol, Motor Sürücüsü">
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('sectorModal')">İptal</button>
+      <button class="btn btn-primary" onclick="saveSector()">Kaydet</button>
+    </div>
+  </div>
+</div>
+
+<!-- Blog Modal -->
+<div class="modal-overlay" id="blogModal">
+  <div class="modal" style="max-width:720px">
+    <div class="modal-header">
+      <div class="modal-title" id="blogModalTitle">Yeni Yazı / İş Ekle</div>
+      <button class="modal-close" onclick="closeModal('blogModal')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="blog-index" value="-1">
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div class="form-grid">
+          <div class="form-group form-full">
+            <label>Başlık</label>
+            <input type="text" id="blog-title" placeholder="Örn: Caterpillar 320D Ekskavator Kontrol Kartı Onarımı">
+          </div>
+          <div class="form-group">
+            <label>Kategori</label>
+            <select id="blog-category">
+              <option value="is-makinesi">İş Makinesi Onarımı</option>
+              <option value="medikal">Medikal Elektronik</option>
+              <option value="endustriyel">Endüstriyel Otomasyon</option>
+              <option value="savunma">Savunma Sanayii</option>
+              <option value="pcb">PCB Tasarım</option>
+              <option value="enerji">Enerji Sistemleri</option>
+              <option value="diger">Diğer</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Tarih</label>
+            <input type="date" id="blog-date">
+          </div>
+          <div class="form-group form-full">
+            <label>Kısa Özet</label>
+            <input type="text" id="blog-summary" placeholder="Tek cümlelik özet (liste görünümünde çıkar)">
+          </div>
+          <div class="form-group form-full">
+            <label>İçerik</label>
+            <textarea id="blog-content" style="min-height:140px" placeholder="Detaylı açıklama, yapılan işlemler, kullanılan yöntemler..."></textarea>
+          </div>
+        </div>
+
+        <div>
+          <div class="form-group" style="margin-bottom:10px">
+            <label>Görsel Ekle (Kapak / İş Fotoğrafı)</label>
+          </div>
+          <div class="image-upload-area" id="blogDropZone" onclick="document.getElementById('blogImageInput').click()" ondragover="handleDragOver(event,'blogDropZone')" ondragleave="handleDragLeave(event,'blogDropZone')" ondrop="handleDrop(event,'blog')">
+            <input type="file" id="blogImageInput" accept="image/*" multiple onchange="handleFileSelect(event,'blog')">
+            <div class="image-upload-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="1"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            </div>
+            <div class="image-upload-text">Görsel yüklemek için <strong>tıklayın</strong> veya sürükleyip bırakın</div>
+            <div class="image-upload-hint">PNG, JPG, WEBP — Max 5MB</div>
+          </div>
+          <div class="image-preview-grid" id="blogImagePreview"></div>
+        </div>
+
+        <div class="form-group">
+          <label>Durum</label>
+          <select id="blog-status">
+            <option value="published">Yayında</option>
+            <option value="draft">Taslak</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('blogModal')">İptal</button>
+      <button class="btn btn-primary" onclick="saveBlog()">Kaydet</button>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Confirm -->
+<div class="modal-overlay" id="deleteModal">
+  <div class="modal" style="max-width:400px">
+    <div class="modal-header">
+      <div class="modal-title">Silmeyi Onayla</div>
+      <button class="modal-close" onclick="closeModal('deleteModal')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p style="font-size:14px;color:var(--text-soft)" id="deleteMessage">Bu öğeyi silmek istediğinizden emin misiniz?</p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('deleteModal')">İptal</button>
+      <button class="btn btn-danger" id="deleteConfirmBtn">Sil</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ════════════════════════════════════════
+//  STATE
+// ════════════════════════════════════════
+const PASSWORD = 'odsan2024';
+
+const state = {
+  contact: {
+    phone: '+90 (312) 000 00 00',
+    phoneHref: '+903120000000',
+    email: 'info@odsan.com.tr',
+    address: 'Savunma Sanayii OSB',
+    city: 'Ankara / Türkiye',
+    footerCopy: '© 2024 ODSAN Elektronik San. Tic. A.Ş. — Tüm hakları saklıdır.',
+    founded: 'Kuruluş 2008 · Ankara, Türkiye'
+  },
+  hero: {
+    line1: 'Elektronik Kart',
+    line2normal: 'Onarım &',
+    line2accent: 'Mühendislik',
+    line3: 'Hizmetleri',
+    lead: 'ODSAN Elektronik; iş makinesi, medikal, endüstriyel ve savunma elektroniği alanlarında kart onarımı, PCB tasarımı ve sistem mühendisliği hizmetleri sunar.',
+    stats: [
+      {num:15, sym:'+', desc:'Yıl elektronik kart onarım deneyimi'},
+      {num:500, sym:'+', desc:'Tamamlanan proje ve onarım iş emri'},
+      {num:98,  sym:'%', desc:'Müşteri memnuniyeti ve başarı oranı'}
+    ]
+  },
+  services: [
+    {title:'Elektronik Kart Onarımı', desc:'İş makinesi, medikal, endüstriyel ve savunma alanlarındaki elektronik kartların kapsamlı teşhis ve onarımı.', specs:['BGA & Fine-Pitch Komponent Değişimi','X-Ray ve Mikroskop Destekli Teşhis','Tersine Mühendislik ve Dokümantasyon','Fonksiyonel Test ve Yazılı Garanti','IPC-7711/7721 Standartları']},
+    {title:'PCB Tasarım ve Geliştirme', desc:'Konsept aşamasından seri üretime kadar yüksek güvenilirlikli PCB tasarımı.', specs:['Çok Katmanlı PCB (2–16 Katman)','Yüksek Frekanslı RF Tasarımı','EMC Uyumlu Yerleşim Tasarımı','DFM / DFT Analizi','MIL-PRF-31032 Uyumu']},
+    {title:'Endüstriyel Sistem Mühendisliği', desc:'Saha uygulamaları için bütünleşik endüstriyel sistem mühendisliği.', specs:['PLC / SCADA Sistem Tasarımı','Kontrol Panosu Mühendisliği','Endüstriyel Protokol Entegrasyonu','Devreye Alma ve Saha Desteği','IEC 61508 İşlevsel Güvenlik']}
+  ],
+  sectors: [
+    {name:'İş Makinesi Elektroniği', desc:'Ekskavatör, forklift, vinç ve ağır taşıt elektronik kontrol kartlarının onarımı.', tags:['ECU Onarımı','Hidrolik Kontrol','Motor Sürücüsü','CAN Bus']},
+    {name:'Medikal Cihaz Elektroniği', desc:'Tıbbi görüntüleme, hasta izleme ve laboratuvar cihazları elektronik kartlarının hassas onarımı.', tags:['Görüntüleme Sistemleri','Hasta Monitörü','Laboratuvar Cihazı','IEC 60601']},
+    {name:'Endüstriyel Otomasyon', desc:'PLC, servo sürücü, frekans invertörü ve HMI kontrol kartlarının onarımı.', tags:['PLC Onarım','Servo Sürücü','Frekans İnvertörü','HMI Panel']},
+    {name:'Enerji & Güç Sistemleri', desc:'UPS, güç kaynağı ve enerji yönetim sistemleri kartlarının onarımı.', tags:['UPS Onarımı','Güç Kaynağı','Solar İnverter','IGBT Değişimi']},
+    {name:'Savunma Sanayii', desc:'Savunma sistemleri ve askeri araç elektroniğinin MIL-STD standartlarında onarımı.', tags:['MIL-STD','Askeri Araç ECU','STANAG','Kripto Elektronik']},
+    {name:'Raylı Sistemler & Ulaşım', desc:'Metro, tramvay ve ulaşım altyapısı kontrol elektroniğinin onarımı.', tags:['Traksiyon Kontrol','Kapı Sistemi','TCMS','EV Elektronik']},
+    {name:'Telekomünikasyon', desc:'Baz istasyonu, router ve telekomünikasyon altyapı kartlarının onarımı.', tags:['Baz İstasyonu','RF Elektronik','Network Ekipmanı','Fiber Optik']},
+    {name:'Denizcilik & Gemi Elektroniği', desc:'Gemi navigasyon ve deniz araçları elektroniklerinin korozyon dirençli onarımı.', tags:['Navigasyon','Makine Kontrol','NMEA 2000','Korozyon Koruma']}
+  ],
+  blog: [],
+  blogImages: {} // {blog-index: [base64...]}
+};
+
+let pendingDeleteFn = null;
+let currentBlogImages = []; // temp storage during modal
+
+// ════════════════════════════════════════
+//  LOGIN
+// ════════════════════════════════════════
+function doLogin() {
+  const pw = document.getElementById('loginPassword').value;
+  if (pw === PASSWORD) {
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('app').classList.add('visible');
+    renderAll();
+  } else {
+    document.getElementById('loginError').classList.add('show');
+    document.getElementById('loginPassword').value = '';
+    document.getElementById('loginPassword').focus();
+  }
+}
+
+function doLogout() {
+  document.getElementById('app').classList.remove('visible');
+  document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('loginPassword').value = '';
+  document.getElementById('loginError').classList.remove('show');
+}
+
+// ════════════════════════════════════════
+//  NAVIGATION
+// ════════════════════════════════════════
+function showPanel(id) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.sidebar-item').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+  document.querySelectorAll('.sidebar-item').forEach(b => {
+    if (b.getAttribute('onclick') && b.getAttribute('onclick').includes("'"+id+"'")) {
+      b.classList.add('active');
+    }
+  });
+  if (id === 'export') generateExport();
+}
+
+// ════════════════════════════════════════
+//  RENDER
+// ════════════════════════════════════════
+function renderAll() {
+  renderServices();
+  renderSectors();
+  renderBlog();
+  updateDashCounts();
+  populateContactForm();
+  populateHeroForm();
+}
+
+function updateDashCounts() {
+  document.getElementById('dash-service-count').textContent = state.services.length;
+  document.getElementById('dash-sector-count').textContent = state.sectors.length;
+  document.getElementById('dash-blog-count').textContent = state.blog.filter(b=>b.status==='published').length;
+}
+
+function renderServices() {
+  const list = document.getElementById('servicesList');
+  list.innerHTML = '';
+  state.services.forEach((svc, i) => {
+    const el = document.createElement('div');
+    el.className = 'card-item';
+    el.innerHTML = `
+      <div class="card-item-drag">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </div>
+      <div class="card-item-body">
+        <div class="card-item-title">${escHtml(svc.title)}</div>
+        <div class="card-item-sub">${svc.specs ? svc.specs.length + ' teknik madde' : ''}</div>
+      </div>
+      <span class="badge badge-blue">${i+1}. Hizmet</span>
+      <div class="card-item-actions">
+        <button class="btn btn-outline btn-sm" onclick="openServiceModal(${i})">Düzenle</button>
+        <button class="btn btn-danger btn-sm" onclick="confirmDelete('Hizmet kartını silmek istiyor musunuz?', ()=>deleteService(${i}))">Sil</button>
+      </div>`;
+    list.appendChild(el);
+  });
+}
+
+function renderSectors() {
+  const list = document.getElementById('sectorsList');
+  list.innerHTML = '';
+  state.sectors.forEach((sec, i) => {
+    const el = document.createElement('div');
+    el.className = 'card-item';
+    el.innerHTML = `
+      <div class="card-item-drag">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </div>
+      <div class="card-item-body">
+        <div class="card-item-title">${escHtml(sec.name)}</div>
+        <div class="card-item-sub">${sec.tags ? sec.tags.join(', ') : ''}</div>
+      </div>
+      <div class="card-item-actions">
+        <button class="btn btn-outline btn-sm" onclick="openSectorModal(${i})">Düzenle</button>
+        <button class="btn btn-danger btn-sm" onclick="confirmDelete('Sektör kartını silmek istiyor musunuz?', ()=>deleteSector(${i}))">Sil</button>
+      </div>`;
+    list.appendChild(el);
+  });
+}
+
+function renderBlog() {
+  const list = document.getElementById('blogList');
+  const empty = document.getElementById('blogEmpty');
+  if (state.blog.length === 0) { list.innerHTML=''; empty.style.display='block'; return; }
+  empty.style.display = 'none';
+  list.innerHTML = '';
+  state.blog.forEach((post, i) => {
+    const el = document.createElement('div');
+    el.className = 'blog-item';
+    const imgs = state.blogImages[i] || [];
+    const thumb = imgs.length ? `<img src="${imgs[0]}" alt="">` : '';
+    const catLabels = {
+      'is-makinesi':'İş Makinesi','medikal':'Medikal','endustriyel':'Endüstriyel',
+      'savunma':'Savunma','pcb':'PCB','enerji':'Enerji','diger':'Diğer'
+    };
+    el.innerHTML = `
+      <div class="blog-item-thumb">${thumb}</div>
+      <div class="blog-item-body">
+        <div class="blog-item-title">${escHtml(post.title)}</div>
+        <div class="blog-item-meta">${post.date || '—'} · ${catLabels[post.category]||post.category}</div>
+        <div style="font-size:12px;color:var(--text-soft);margin-top:4px">${escHtml(post.summary||'')}</div>
+      </div>
+      <div class="blog-item-actions">
+        <span class="badge ${post.status==='published'?'badge-green':'badge-orange'}">${post.status==='published'?'Yayında':'Taslak'}</span>
+        <button class="btn btn-outline btn-sm" onclick="openBlogModal(${i})">Düzenle</button>
+        <button class="btn btn-danger btn-sm" onclick="confirmDelete('Yazıyı silmek istiyor musunuz?', ()=>deleteBlog(${i}))">Sil</button>
+      </div>`;
+    list.appendChild(el);
+  });
+}
+
+// ════════════════════════════════════════
+//  CONTACT SAVE
+// ════════════════════════════════════════
+function populateContactForm() {
+  document.getElementById('ct-phone').value = state.contact.phone;
+  document.getElementById('ct-phone-href').value = state.contact.phoneHref;
+  document.getElementById('ct-email').value = state.contact.email;
+  document.getElementById('ct-address').value = state.contact.address;
+  document.getElementById('ct-city').value = state.contact.city;
+  document.getElementById('ct-footer-copy').value = state.contact.footerCopy;
+  document.getElementById('ct-founded').value = state.contact.founded;
+}
+
+function saveContact() {
+  state.contact.phone     = document.getElementById('ct-phone').value;
+  state.contact.phoneHref = document.getElementById('ct-phone-href').value;
+  state.contact.email     = document.getElementById('ct-email').value;
+  state.contact.address   = document.getElementById('ct-address').value;
+  state.contact.city      = document.getElementById('ct-city').value;
+  state.contact.footerCopy= document.getElementById('ct-footer-copy').value;
+  state.contact.founded   = document.getElementById('ct-founded').value;
+  showToast('İletişim bilgileri kaydedildi. Dışa aktar butonuyla HTML\'i güncelleyin.', 'success');
+}
+
+// ════════════════════════════════════════
+//  HERO SAVE
+// ════════════════════════════════════════
+function populateHeroForm() {
+  document.getElementById('hero-line1').value       = state.hero.line1;
+  document.getElementById('hero-line2-normal').value= state.hero.line2normal;
+  document.getElementById('hero-line2-accent').value= state.hero.line2accent;
+  document.getElementById('hero-line3').value       = state.hero.line3;
+  document.getElementById('hero-lead').value        = state.hero.lead;
+  state.hero.stats.forEach((s,i) => {
+    document.getElementById(`stat${i+1}-num`).value  = s.num;
+    document.getElementById(`stat${i+1}-sym`).value  = s.sym;
+    document.getElementById(`stat${i+1}-desc`).value = s.desc;
+  });
+}
+
+function saveHero() {
+  state.hero.line1       = document.getElementById('hero-line1').value;
+  state.hero.line2normal = document.getElementById('hero-line2-normal').value;
+  state.hero.line2accent = document.getElementById('hero-line2-accent').value;
+  state.hero.line3       = document.getElementById('hero-line3').value;
+  state.hero.lead        = document.getElementById('hero-lead').value;
+  state.hero.stats = [1,2,3].map(i => ({
+    num:  parseInt(document.getElementById(`stat${i}-num`).value) || 0,
+    sym:  document.getElementById(`stat${i}-sym`).value,
+    desc: document.getElementById(`stat${i}-desc`).value
+  }));
+  showToast('Hero bölümü kaydedildi.', 'success');
+}
+
+// ════════════════════════════════════════
+//  SERVICE MODAL
+// ════════════════════════════════════════
+function openServiceModal(idx=-1) {
+  document.getElementById('svc-index').value = idx;
+  document.getElementById('serviceModalTitle').textContent = idx === -1 ? 'Hizmet Ekle' : 'Hizmet Düzenle';
+  if (idx >= 0) {
+    const s = state.services[idx];
+    document.getElementById('svc-title').value = s.title;
+    document.getElementById('svc-desc').value  = s.desc;
+    document.getElementById('svc-specs').value = (s.specs||[]).join('\n');
+  } else {
+    document.getElementById('svc-title').value = '';
+    document.getElementById('svc-desc').value  = '';
+    document.getElementById('svc-specs').value = '';
+  }
+  openModal('serviceModal');
+}
+
+function saveService() {
+  const idx   = parseInt(document.getElementById('svc-index').value);
+  const title = document.getElementById('svc-title').value.trim();
+  const desc  = document.getElementById('svc-desc').value.trim();
+  const specs = document.getElementById('svc-specs').value.split('\n').map(s=>s.trim()).filter(Boolean);
+  if (!title) { showToast('Başlık boş olamaz.','error'); return; }
+  const obj = {title, desc, specs};
+  if (idx === -1) state.services.push(obj);
+  else state.services[idx] = obj;
+  closeModal('serviceModal');
+  renderServices();
+  updateDashCounts();
+  showToast('Hizmet kartı kaydedildi.','success');
+}
+
+function deleteService(idx) {
+  state.services.splice(idx, 1);
+  renderServices();
+  updateDashCounts();
+  showToast('Hizmet silindi.','success');
+}
+
+// ════════════════════════════════════════
+//  SECTOR MODAL
+// ════════════════════════════════════════
+function openSectorModal(idx=-1) {
+  document.getElementById('sec-index').value = idx;
+  document.getElementById('sectorModalTitle').textContent = idx === -1 ? 'Sektör Ekle' : 'Sektör Düzenle';
+  if (idx >= 0) {
+    const s = state.sectors[idx];
+    document.getElementById('sec-name').value = s.name;
+    document.getElementById('sec-desc').value = s.desc;
+    document.getElementById('sec-tags').value = (s.tags||[]).join(', ');
+  } else {
+    document.getElementById('sec-name').value = '';
+    document.getElementById('sec-desc').value = '';
+    document.getElementById('sec-tags').value = '';
+  }
+  openModal('sectorModal');
+}
+
+function saveSector() {
+  const idx  = parseInt(document.getElementById('sec-index').value);
+  const name = document.getElementById('sec-name').value.trim();
+  const desc = document.getElementById('sec-desc').value.trim();
+  const tags = document.getElementById('sec-tags').value.split(',').map(t=>t.trim()).filter(Boolean);
+  if (!name) { showToast('Sektör adı boş olamaz.','error'); return; }
+  const obj = {name, desc, tags};
+  if (idx === -1) state.sectors.push(obj);
+  else state.sectors[idx] = obj;
+  closeModal('sectorModal');
+  renderSectors();
+  updateDashCounts();
+  showToast('Sektör kartı kaydedildi.','success');
+}
+
+function deleteSector(idx) {
+  state.sectors.splice(idx, 1);
+  renderSectors();
+  updateDashCounts();
+  showToast('Sektör silindi.','success');
+}
+
+// ════════════════════════════════════════
+//  BLOG MODAL
+// ════════════════════════════════════════
+function openBlogModal(idx=-1) {
+  document.getElementById('blog-index').value = idx;
+  document.getElementById('blogModalTitle').textContent = idx === -1 ? 'Yeni Yazı / İş Ekle' : 'Yazıyı Düzenle';
+  currentBlogImages = idx >= 0 ? [...(state.blogImages[idx]||[])] : [];
+  if (idx >= 0) {
+    const p = state.blog[idx];
+    document.getElementById('blog-title').value    = p.title;
+    document.getElementById('blog-category').value = p.category;
+    document.getElementById('blog-date').value     = p.date;
+    document.getElementById('blog-summary').value  = p.summary;
+    document.getElementById('blog-content').value  = p.content;
+    document.getElementById('blog-status').value   = p.status;
+  } else {
+    document.getElementById('blog-title').value    = '';
+    document.getElementById('blog-category').value = 'is-makinesi';
+    document.getElementById('blog-date').value     = new Date().toISOString().split('T')[0];
+    document.getElementById('blog-summary').value  = '';
+    document.getElementById('blog-content').value  = '';
+    document.getElementById('blog-status').value   = 'published';
+  }
+  renderBlogImagePreview();
+  openModal('blogModal');
+}
+
+function saveBlog() {
+  const idx  = parseInt(document.getElementById('blog-index').value);
+  const post = {
+    title:    document.getElementById('blog-title').value.trim(),
+    category: document.getElementById('blog-category').value,
+    date:     document.getElementById('blog-date').value,
+    summary:  document.getElementById('blog-summary').value.trim(),
+    content:  document.getElementById('blog-content').value.trim(),
+    status:   document.getElementById('blog-status').value
+  };
+  if (!post.title) { showToast('Başlık boş olamaz.','error'); return; }
+  if (idx === -1) {
+    state.blog.push(post);
+    state.blogImages[state.blog.length - 1] = [...currentBlogImages];
+  } else {
+    state.blog[idx] = post;
+    state.blogImages[idx] = [...currentBlogImages];
+  }
+  closeModal('blogModal');
+  renderBlog();
+  updateDashCounts();
+  showToast('Yazı kaydedildi.','success');
+}
+
+function deleteBlog(idx) {
+  state.blog.splice(idx, 1);
+  delete state.blogImages[idx];
+  renderBlog();
+  updateDashCounts();
+  showToast('Yazı silindi.','success');
+}
+
+// ════════════════════════════════════════
+//  IMAGE UPLOAD
+// ════════════════════════════════════════
+function handleFileSelect(e, ctx) {
+  processFiles(Array.from(e.target.files), ctx);
+}
+
+function handleDragOver(e, id) {
+  e.preventDefault();
+  document.getElementById(id).classList.add('drag-over');
+}
+
+function handleDragLeave(e, id) {
+  document.getElementById(id).classList.remove('drag-over');
+}
+
+function handleDrop(e, ctx) {
+  e.preventDefault();
+  const id = ctx === 'blog' ? 'blogDropZone' : '';
+  if (id) document.getElementById(id).classList.remove('drag-over');
+  processFiles(Array.from(e.dataTransfer.files), ctx);
+}
+
+function processFiles(files, ctx) {
+  files.forEach(file => {
+    if (!file.type.startsWith('image/')) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      if (ctx === 'blog') {
+        currentBlogImages.push(ev.target.result);
+        renderBlogImagePreview();
+      }
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+function renderBlogImagePreview() {
+  const grid = document.getElementById('blogImagePreview');
+  grid.innerHTML = '';
+  currentBlogImages.forEach((src, i) => {
+    const item = document.createElement('div');
+    item.className = 'image-preview-item';
+    item.innerHTML = `
+      <img src="${src}" alt="">
+      <button class="image-preview-remove" onclick="removeBlogImage(${i})">✕</button>`;
+    grid.appendChild(item);
+  });
+}
+
+function removeBlogImage(i) {
+  currentBlogImages.splice(i, 1);
+  renderBlogImagePreview();
+}
+
+// ════════════════════════════════════════
+//  DELETE CONFIRM
+// ════════════════════════════════════════
+function confirmDelete(msg, fn) {
+  document.getElementById('deleteMessage').textContent = msg;
+  pendingDeleteFn = fn;
+  document.getElementById('deleteConfirmBtn').onclick = () => {
+    fn();
+    closeModal('deleteModal');
+  };
+  openModal('deleteModal');
+}
+
+// ════════════════════════════════════════
+//  MODAL HELPERS
+// ════════════════════════════════════════
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+// Close modal on overlay click
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+  overlay.addEventListener('click', e => {
+    if (e.target === overlay) overlay.classList.remove('open');
+  });
+});
+
+// ════════════════════════════════════════
+//  TOAST
+// ════════════════════════════════════════
+let toastTimer;
+function showToast(msg, type='') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show ' + type;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+// ════════════════════════════════════════
+//  EXPORT HTML
+// ════════════════════════════════════════
+function generateExport() {
+  const html = buildHTML();
+  const area = document.getElementById('exportArea');
+  const code = document.getElementById('exportCode');
+  area.style.display = 'block';
+  code.textContent = html;
+  document.getElementById('exportCopyBtn').textContent = 'Kopyala';
+  document.getElementById('exportCopyBtn').classList.remove('copied');
+}
+
+function copyExport() {
+  const html = buildHTML();
+  navigator.clipboard.writeText(html).then(() => {
+    const btn = document.getElementById('exportCopyBtn');
+    btn.textContent = '✓ Kopyalandı!';
+    btn.classList.add('copied');
+    showToast('HTML panoya kopyalandı! Şimdi GitHub\'a yapıştırın.', 'success');
+    setTimeout(() => { btn.textContent='Kopyala'; btn.classList.remove('copied'); }, 3000);
+  });
+}
+
+function escHtml(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function buildBlogSection() {
+  const published = state.blog.filter(p => p.status === 'published');
+  if (published.length === 0) return '';
+
+  const catLabel = {
+    'is-makinesi':'İş Makinesi','medikal':'Medikal','endustriyel':'Endüstriyel',
+    'savunma':'Savunma','pcb':'PCB Tasarım','enerji':'Enerji','diger':'Diğer'
+  };
+
+  const cards = published.map((p, i) => {
+    const originalIdx = state.blog.indexOf(p);
+    const imgs = state.blogImages[originalIdx] || [];
+    const imgHtml = imgs[0] ? `<div class="blog-card-img"><img src="${imgs[0]}" alt="${escHtml(p.title)}" loading="lazy"></div>` : '';
+    return `
+      <article class="blog-card">
+        ${imgHtml}
+        <div class="blog-card-body">
+          <div class="blog-card-meta">
+            <span class="blog-card-cat">${catLabel[p.category]||p.category}</span>
+            <span class="blog-card-date">${p.date||''}</span>
+          </div>
+          <h3 class="blog-card-title">${escHtml(p.title)}</h3>
+          <p class="blog-card-summary">${escHtml(p.summary||'')}</p>
+          ${p.content ? `<div class="blog-card-content">${escHtml(p.content)}</div>` : ''}
+        </div>
+      </article>`;
+  }).join('');
+
+  return `
+<!-- BLOG / YAPILAN İŞLER -->
+<section id="blog" aria-label="Blog ve Yapılan İşler">
+  <div class="section-wrap">
+    <div class="section-label reveal">
+      <div class="eyebrow-line"></div>
+      <span>Blog / Yapılan İşler</span>
+    </div>
+    <h2 class="reveal" style="margin-bottom:48px">Tamamlanan Projeler<br>ve Teknik İçerik</h2>
+    <div class="blog-grid reveal">
+      ${cards}
+    </div>
+  </div>
+</section>`;
+}
+
+function buildHTML() {
+  const c = state.contact;
+  const h = state.hero;
+
+  // Build services HTML
+  const romanNums = ['I','II','III','IV','V','VI','VII','VIII'];
+  const servicesHTML = state.services.map((svc, i) => `
+      <article class="core-card reveal${i>0?' reveal-delay-'+i:''}">
+        <span class="core-card-num">${romanNums[i]}.</span>
+        <div class="core-card-icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="2" y="4" width="20" height="16"/><rect x="6" y="8" width="5" height="4"/><rect x="13" y="8" width="5" height="4"/></svg>
+        </div>
+        <h3>${escHtml(svc.title)}</h3>
+        <p>${escHtml(svc.desc)}</p>
+        ${svc.specs && svc.specs.length ? `
+        <div class="core-card-specs">
+          ${svc.specs.map(s=>`<span class="spec-tag">${escHtml(s)}</span>`).join('')}
+        </div>` : ''}
+      </article>`).join('');
+
+  // Build sectors HTML
+  const sectorsHTML = state.sectors.map((sec, i) => `
+      <div class="sector-card reveal${i%4>0?' reveal-delay-'+(i%4):''}">
+        <div class="sector-icon" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="12" cy="12" r="3"/><path d="M12 1v3M12 20v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M1 12h3M20 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/></svg>
+        </div>
+        <h3>${escHtml(sec.name)}</h3>
+        <p>${escHtml(sec.desc)}</p>
+        <div class="sector-tags">
+          ${(sec.tags||[]).map(t=>`<span class="sector-tag">${escHtml(t)}</span>`).join('')}
+        </div>
+      </div>`).join('');
+
+  // Stats
+  const statsHTML = h.stats.map(s => `
+        <div class="hero-stat">
+          <div class="stat-figure"><span class="counter" data-target="${s.num}">0</span><sup>${escHtml(s.sym)}</sup></div>
+          <div class="stat-desc">${escHtml(s.desc)}</div>
+        </div>`).join('');
+
+  // Blog section
+  const blogSection = buildBlogSection();
+
+  return `<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ODSAN Elektronik — Kart Onarım, PCB Tasarım, Endüstriyel & Medikal Elektronik | Ankara</title>
+  <meta name="description" content="ODSAN Elektronik; iş makinesi kartı tamiri, medikal cihaz kart onarımı, PCB tasarım ve endüstriyel sistem mühendisliği alanlarında Ankara merkezli uzman firmadır.">
+  <meta name="keywords" content="Odsan Elektronik, elektronik kart onarım, iş makinesi kart tamiri, medikal kart onarımı, PCB tasarım, PLC onarım, BGA onarım, endüstriyel elektronik, Ankara">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="ODSAN Elektronik — Elektronik Kart Onarım & PCB Tasarım">
+  <meta property="og:type" content="website">
+  <link rel="canonical" href="https://odsan.com.tr/">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@300;400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet">
+  <style>
+    /* ── [Styles from odsan-v4.html — buraya sitenizin CSS kodunu ekleyin] ── */
+    /* Bu export motoru sadece içerik bölümlerini günceller.                  */
+    /* CSS değişmediği için mevcut style bloğunuzu koruyun.                   */
+  </style>
+</head>
+<body>
+<!-- İÇERİK BURAYA EXPORT EDİLDİ — ${new Date().toLocaleString('tr-TR')} -->
+
+<!-- NAV — değişmedi, mevcut nav kodunuzu koruyun -->
+
+<!-- HERO -->
+<section aria-label="Ana Bölüm">
+  <div id="hero">
+    <div class="hero-content">
+      <div class="hero-eyebrow">
+        <div class="eyebrow-line"></div>
+        <span class="eyebrow-text">${escHtml(c.founded)}</span>
+      </div>
+      <h1>
+        ${escHtml(h.line1)}<br>
+        ${escHtml(h.line2normal)} <em>${escHtml(h.line2accent)}</em><br>
+        ${escHtml(h.line3)}
+      </h1>
+      <p class="hero-lead">${escHtml(h.lead)}</p>
+      <div class="hero-ticker" aria-hidden="true">
+        <div class="ticker-track" id="tickerTrack">
+          <span class="ticker-item"><span>→</span>İş Makinesi Kart Tamiri</span>
+          <span class="ticker-item"><span>→</span>Medikal Elektronik Onarım</span>
+          <span class="ticker-item"><span>→</span>PCB Tasarım & Üretim</span>
+          <span class="ticker-item"><span>→</span>PLC / Servo Sürücü Onarımı</span>
+          <span class="ticker-item"><span>→</span>BGA Yeniden Lehimleme</span>
+          <span class="ticker-item"><span>→</span>Savunma Elektroniği</span>
+          <span class="ticker-item"><span>→</span>İş Makinesi Kart Tamiri</span>
+          <span class="ticker-item"><span>→</span>Medikal Elektronik Onarım</span>
+          <span class="ticker-item"><span>→</span>PCB Tasarım & Üretim</span>
+          <span class="ticker-item"><span>→</span>PLC / Servo Sürücü Onarımı</span>
+          <span class="ticker-item"><span>→</span>BGA Yeniden Lehimleme</span>
+          <span class="ticker-item"><span>→</span>Savunma Elektroniği</span>
+        </div>
+      </div>
+      <div class="hero-actions">
+        <a href="#sectors" class="btn-primary">Hizmet Verdiğimiz Sektörler</a>
+        <a href="#contact" class="btn-outline">Teklif Talep Edin</a>
+      </div>
+    </div>
+    <div class="hero-sidebar" aria-label="İstatistikler">
+      <div class="hero-stat-group">
+        ${statsHTML}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTORS -->
+<section id="sectors" aria-label="Sektörler">
+  <div class="section-wrap">
+    <div class="section-label reveal">
+      <div class="eyebrow-line"></div>
+      <span>Hizmet Verdiğimiz Sektörler</span>
+    </div>
+    <h2 class="reveal" style="margin-bottom:56px">Hangi Sektörlere<br>Hizmet Veriyoruz?</h2>
+    <div class="sectors-grid">
+      ${sectorsHTML}
+    </div>
+  </div>
+</section>
+
+<!-- CORE SERVICES -->
+<section id="core-services" aria-label="Temel Hizmetler">
+  <div class="section-wrap">
+    <div class="core-header reveal">
+      <div>
+        <div class="section-label">
+          <div class="eyebrow-line"></div>
+          <span>Temel Mühendislik Hizmetleri</span>
+        </div>
+        <h2>Temel<br>Yetkinlik Alanları</h2>
+      </div>
+      <p>Kart onarımından PCB tasarımına, sistem mühendisliğine kadar tam kapsamlı çözüm ortaklığı.</p>
+    </div>
+    <div class="core-cards">
+      ${servicesHTML}
+    </div>
+  </div>
+</section>
+
+${blogSection}
+
+<!-- CONTACT -->
+<section id="contact" aria-label="İletişim">
+  <div class="section-wrap">
+    <div class="contact-layout">
+      <div class="contact-left reveal">
+        <div class="section-label"><div class="eyebrow-line"></div><span>İletişim</span></div>
+        <h2>Projenizi<br>Değerlendirelim</h2>
+        <p>Teknik gereksinimlerinizi paylaşın; mühendislik ekibimiz en kısa sürede sizinle iletişime geçsin.</p>
+        <div class="contact-detail">
+          <div class="contact-icon" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 014.3 11.8a19.79 19.79 0 01-3.07-8.67A2 2 0 013.22 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L7.91 8.09a16 16 0 006 6l.56-.56a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+          </div>
+          <div class="contact-detail-body">
+            <div class="contact-detail-label">Telefon</div>
+            <div class="contact-detail-value"><a href="tel:${escHtml(c.phoneHref)}" style="color:inherit;text-decoration:none">${escHtml(c.phone)}</a></div>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-icon" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </div>
+          <div class="contact-detail-body">
+            <div class="contact-detail-label">E-posta</div>
+            <div class="contact-detail-value"><a href="mailto:${escHtml(c.email)}" style="color:inherit;text-decoration:none">${escHtml(c.email)}</a></div>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-icon" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <div class="contact-detail-body">
+            <div class="contact-detail-label">Adres</div>
+            <div class="contact-detail-value">${escHtml(c.address)}<br>${escHtml(c.city)}</div>
+          </div>
+        </div>
+      </div>
+      <div class="contact-form reveal reveal-delay-2">
+        <div class="form-title">Proje / Onarım Talebi</div>
+        <form action="#" method="POST" novalidate>
+          <div class="form-row">
+            <div class="form-group"><label for="name">Ad Soyad</label><input type="text" id="name" name="name" placeholder="Adınız Soyadınız" autocomplete="name"></div>
+            <div class="form-group"><label for="company">Şirket / Kurum</label><input type="text" id="company" name="company" placeholder="Kuruluş Adı" autocomplete="organization"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label for="email">E-posta</label><input type="email" id="email" name="email" placeholder="${escHtml(c.email)}" autocomplete="email"></div>
+            <div class="form-group"><label for="phone">Telefon</label><input type="tel" id="phone" name="phone" placeholder="+90" autocomplete="tel"></div>
+          </div>
+          <div class="form-group">
+            <label for="service">Hizmet Kategorisi</label>
+            <select id="service" name="service">
+              <option value="" disabled selected>Seçiniz...</option>
+              <optgroup label="── Kart Onarımı ──">
+                ${state.sectors.map(s=>`<option value="${s.name.toLowerCase().replace(/\s+/g,'-')}">${escHtml(s.name)}</option>`).join('')}
+              </optgroup>
+              <optgroup label="── Mühendislik Hizmetleri ──">
+                ${state.services.map(s=>`<option value="${s.title.toLowerCase().replace(/\s+/g,'-')}">${escHtml(s.title)}</option>`).join('')}
+              </optgroup>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="message">Arıza / Proje Açıklaması</label>
+            <textarea id="message" name="message" placeholder="Cihaz markası, model, arıza belirtisi veya proje gereksinimlerinizi aktarın..."></textarea>
+          </div>
+          <button type="submit" class="form-submit"><span>Talebi Gönder</span><span aria-hidden="true">→</span></button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="footer-emblem" aria-hidden="true">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <rect x="1" y="1" width="5" height="5" fill="rgba(255,255,255,0.5)"/>
+          <rect x="8" y="1" width="5" height="5" fill="rgba(26,95,168,0.6)"/>
+          <rect x="1" y="8" width="5" height="5" fill="rgba(26,95,168,0.3)"/>
+          <rect x="8" y="8" width="5" height="5" fill="rgba(255,255,255,0.5)"/>
+        </svg>
+      </div>
+      <span class="footer-wordmark">ODSAN</span>
+    </div>
+    <span class="footer-copy">${escHtml(c.footerCopy)}</span>
+    <ul class="footer-links">
+      <li><a href="#">Gizlilik Politikası</a></li>
+      <li><a href="#">Kalite Belgeleri</a></li>
+      <li><a href="#">Kariyer</a></li>
+    </ul>
+  </div>
+</footer>
+
+<!-- Mevcut script bloğunuzu buraya ekleyin (scroll reveal, counter, mobile nav) -->
+
+</body>
+</html>`;
+}
+</script>
+</body>
+</html>
